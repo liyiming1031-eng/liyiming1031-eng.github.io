@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yiming Li | AI Product Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #fafaf9; --bg-alt: #f5f5f4; --bg-card: #ffffff;
+      --text: #1c1917; --text-secondary: #78716c; --text-tertiary: #a8a29e;
+      --accent: #7c3aed; --accent-light: #a78bfa;
+      --accent-bg: rgba(124, 58, 237, 0.08);
+      --border: #e7e5e4; --border-light: #f5f5f4;
+      --shadow-sm: 0 1px 2px rgba(28,25,23,0.04);
+      --shadow-md: 0 4px 16px rgba(28,25,23,0.06);
+      --shadow-lg: 0 12px 40px rgba(28,25,23,0.08);
+      --radius: 16px; --radius-sm: 10px;
+      --font: 'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;
+      --max-width: 1080px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    .cursor-glow { position: fixed; top: 0; left: 0; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%); pointer-events: none; z-index: 0; transform: translate(-50%,-50%); will-change: transform; }
+    @media (max-width: 768px) { .cursor-glow { display: none; } }
+
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 200; width: 0; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 2rem; height: 64px; display: flex; justify-content: space-between; align-items: center; background: rgba(250,250,249,0.8); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); transition: box-shadow 0.3s; }
+    nav.scrolled { box-shadow: 0 1px 0 var(--border); }
+    nav .logo { font-size: 0.95rem; font-weight: 600; letter-spacing: 0.5px; position: relative; }
+    nav .logo::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1.5px; background: var(--accent); transition: width 0.3s; }
+    nav .logo:hover::after { width: 100%; }
+    nav .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    nav .nav-links a { font-size: 0.85rem; color: var(--text-secondary); font-weight: 400; transition: color 0.2s; position: relative; padding-bottom: 4px; }
+    nav .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px; background: var(--accent); transition: width 0.3s cubic-bezier(0.4,0,0.2,1); }
+    nav .nav-links a:hover { color: var(--text); }
+    nav .nav-links a:hover::after { width: 100%; }
+
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+    section { padding: 7rem 0; }
+    .section-header { margin-bottom: 3rem; }
+    .section-header h2 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-tertiary); margin-bottom: 0.75rem; }
+    .section-header p { font-size: 1.75rem; font-weight: 600; line-height: 1.3; }
+
+    .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 64px; }
+    .hero .container { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .hero-text { max-width: 520px; }
+    .hero-label { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 500; color: var(--accent); margin-bottom: 1.5rem; opacity: 0; transform: translateY(20px); }
+    .hero-label.animate { animation: fadeUp 0.6s 0.2s forwards; }
+    .hero h1 { font-size: clamp(2.8rem,5vw,3.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    .hero h1 .char { display: inline-block; opacity: 0; transform: translateY(30px); }
+    .hero h1 .char.animate { animation: charReveal 0.5s forwards; }
+    .hero h1 span.accent { color: var(--accent); }
+    .hero .desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; opacity: 0; transform: translateY(20px); }
+    .hero .desc.animate { animation: fadeUp 0.6s 1.4s forwards; }
+    .hero-btns { display: flex; gap: 0.75rem; opacity: 0; transform: translateY(20px); }
+    .hero-btns.animate { animation: fadeUp 0.6s 1.6s forwards; }
+    .hero-stats { display: flex; gap: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); opacity: 0; transform: translateY(20px); }
+    .hero-stats.animate { animation: fadeUp 0.6s 1.8s forwards; }
+    .hero-stat .num { font-size: 1.5rem; font-weight: 700; }
+    .hero-stat .label { font-size: 0.78rem; color: var(--text-tertiary); margin-top: 0.15rem; }
+
+    .hero-visual { display: flex; justify-content: center; align-items: center; perspective: 1000px; }
+    .hero-card { width: 100%; max-width: 380px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-lg); transform-style: preserve-3d; transition: transform 0.15s ease-out, box-shadow 0.3s; opacity: 0; transform: translateY(40px) rotateX(5deg); }
+    .hero-card.animate { animation: cardAppear 0.8s 0.6s forwards; }
+    .hero-card:hover { box-shadow: 0 20px 60px rgba(28,25,23,0.12); }
+    .hero-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+    .hero-card-role { font-size: 0.78rem; font-weight: 500; color: var(--accent); background: var(--accent-bg); padding: 0.3rem 0.75rem; border-radius: 20px; }
+    .hero-card-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-light)); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; color: #fff; transform: translateZ(20px); }
+    .hero-card h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; transform: translateZ(10px); }
+    .hero-card .bio { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; transform: translateZ(8px); }
+    .hero-card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; transform: translateZ(15px); }
+    .hero-card-tags span { font-size: 0.75rem; padding: 0.3rem 0.7rem; background: var(--bg-alt); border-radius: 6px; color: var(--text-secondary); font-weight: 500; transition: all 0.2s; }
+    .hero-card-tags span:hover { background: var(--accent-bg); color: var(--accent); }
+
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: var(--radius-sm); font-size: 0.88rem; font-weight: 500; transition: all 0.25s cubic-bezier(0.4,0,0.2,1); cursor: pointer; border: none; font-family: var(--font); }
+    .btn-primary { background: var(--text); color: var(--bg); }
+    .btn-primary:hover { background: #292524; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--text-tertiary); color: var(--text); }
+
+    .marquee-section { padding: 3rem 0; overflow: hidden; }
+    .marquee-track { display: flex; gap: 1rem; animation: marquee 35s linear infinite; width: max-content; }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item { font-size: 0.82rem; padding: 0.5rem 1.1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; color: var(--text-secondary); white-space: nowrap; transition: all 0.3s; }
+    .marquee-item:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 2px 12px rgba(124,58,237,0.1); }
+    .marquee-item .dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-right: 0.5rem; opacity: 0.6; }
+
+    .timeline { display: flex; flex-direction: column; }
+    .timeline-item { padding: 2rem 0; border-bottom: 1px solid var(--border-light); }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-item:first-child { padding-top: 0; }
+    .timeline-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .timeline-period { font-size: 0.78rem; font-weight: 500; color: var(--accent); white-space: nowrap; }
+    .timeline-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.15rem; }
+    .timeline-company { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem; }
+    .timeline-item ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .timeline-item li { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; padding-left: 1.25rem; position: relative; }
+    .timeline-item li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 4px; height: 4px; border-radius: 50%; background: var(--text-tertiary); transition: all 0.3s; }
+    .timeline-item li:hover::before { background: var(--accent); box-shadow: 0 0 8px rgba(124,58,237,0.4); }
+    .timeline-item li strong { color: var(--text); font-weight: 500; }
+
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .edu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; }
+    .edu-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .edu-card:hover::before { transform: scaleX(1); }
+    .edu-card:hover { border-color: #d6d3d1; box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .edu-period { font-size: 0.78rem; color: var(--accent); font-weight: 500; }
+    .edu-title { font-size: 1.05rem; font-weight: 600; margin: 0.5rem 0 0.25rem; }
+    .edu-detail { font-size: 0.85rem; color: var(--text-secondary); }
+    .edu-highlight { margin-top: 0.75rem; font-size: 0.82rem; font-weight: 500; color: var(--accent); }
+
+    .awards-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+    .award-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; transition: all 0.25s; }
+    .award-item:hover { border-color: #d6d3d1; transform: translateX(4px); }
+    .award-item .emoji { font-size: 1.5rem; flex-shrink: 0; }
+    .award-item .info h4 { font-size: 0.92rem; font-weight: 600; }
+    .award-item .info p { font-size: 0.82rem; color: var(--text-secondary); }
+
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .skill-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: all 0.3s; }
+    .skill-card:hover { border-color: #d6d3d1; box-shadow: var(--shadow-sm); }
+    .skill-card h4 { font-size: 0.82rem; font-weight: 600; margin-bottom: 1rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag { font-size: 0.78rem; padding: 0.35rem 0.7rem; background: var(--bg-alt); border-radius: 6px; color: var(--text-secondary); font-weight: 400; transition: all 0.25s; cursor: default; }
+    .skill-tag:hover { background: var(--accent); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,58,237,0.2); }
+
+    .about-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+    .about-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem 0.75rem; text-align: center; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+    .about-item:hover { border-color: #d6d3d1; transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .about-item .emoji { font-size: 1.5rem; margin-bottom: 0.5rem; transition: transform 0.3s; display: inline-block; }
+    .about-item:hover .emoji { transform: scale(1.2) rotate(8deg); }
+    .about-item .label { font-size: 0.7rem; color: var(--text-tertiary); margin-bottom: 0.2rem; }
+    .about-item .value { font-size: 0.78rem; font-weight: 500; color: var(--text-secondary); line-height: 1.4; }
+
+    .contact-section { text-align: center; padding-bottom: 4rem; }
+    .contact-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+    .contact-meta { margin-top: 2rem; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8; }
+    .contact-meta strong { color: var(--accent); font-weight: 500; }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.78rem; color: var(--text-tertiary); }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes charReveal { to { opacity: 1; transform: translateY(0); } }
+    @keyframes cardAppear { to { opacity: 1; transform: translateY(0) rotateX(0); } }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    @media (max-width: 768px) {
+      .hero .container { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-visual { order: -1; }
+      .hero-card { max-width: 100%; }
+      nav .nav-links { display: none; }
+      .edu-grid, .skills-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: repeat(3, 1fr); }
+      section { padding: 4rem 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-glow"></div>
+  <div class="scroll-progress"></div>
+
+  <nav>
+    <a href="#" class="logo">Yiming Li</a>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-text">
+        <div class="hero-label">&#10022; AI Product Manager</div>
+        <h1 id="hero-title"></h1>
+        <p class="desc">&#27494;&#27721;&#22823;&#23398;&#37329;&#34701;&#30805;&#22763;&#65292;&#20851;&#27880; AIGC&#12289;AI Agent&#12289;&#20154;&#26426;&#20132;&#20114;&#26041;&#21521;&#12290;&#20174;&#25237;&#34892;&#30740;&#31350;&#21040; AI &#20135;&#21697;&#65292;&#19968;&#30452;&#22312;&#23547;&#25214;&#25216;&#26415;&#19982;&#21830;&#19994;&#30340;&#26368;&#20339;&#20132;&#27719;&#28857;&#12290;</p>
+        <div class="hero-btns">
+          <a href="#experience" class="btn btn-primary">&#26597;&#30475;&#32463;&#21382; &rarr;</a>
+          <a href="#contact" class="btn btn-ghost">&#32852;&#31995;&#25105;</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="num">7</div><div class="label">&#27573;&#23454;&#20064;&#32463;&#21382;</div></div>
+          <div class="hero-stat"><div class="num">3</div><div class="label">&#27425;&#20840;&#22269;&#31454;&#36187;&#33719;&#22870;</div></div>
+          <div class="hero-stat"><div class="num">100+</div><div class="label">&#24180;&#22343;&#38405;&#35835;&#37327;</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card" id="heroCard">
+          <div class="hero-card-top">
+            <span class="hero-card-role">AI Product Manager</span>
+            <div class="hero-card-avatar">YL</div>
+          </div>
+          <h3>Yiming Li</h3>
+          <p class="bio">用 AI 重新定义产品体验，用数据驱动商业决策。播客「百里挑一」主播，公众号「百里回声」作者。</p>
+          <div class="hero-card-tags">
+            <span>AI Product</span><span>Strategy</span><span>Data Analysis</span><span>Python</span><span>Podcaster</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span class="marquee-item"><span class="dot"></span>AI Agent</span>
+      <span class="marquee-item"><span class="dot"></span>Prompt Engineering</span>
+      <span class="marquee-item"><span class="dot"></span>&#21830;&#19994;&#20998;&#26512;</span>
+      <span class="marquee-item"><span class="dot"></span>&#20986;&#28023;&#25112;&#30053;</span>
+      <span class="marquee-item"><span class="dot"></span>&#25968;&#25454;&#39537;&#21160;</span>
+      <span class="marquee-item"><span class="dot"></span>LLM &#24212;&#29992;</span>
+      <span class="marquee-item"><span class="dot"></span>&#31454;&#21697;&#30740;&#31350;</span>
+      <span class="marquee-item"><span class="dot"></span>&#29992;&#25143;&#22686;&#38271;</span>
+      <span class="marquee-item"><span class="dot"></span>&#20135;&#21697;&#25112;&#30053;</span>
+      <span class="marquee-item"><span class="dot"></span>N8N &#33258;&#21160;&#21270;</span>
+      <span class="marquee-item"><span class="dot"></span>&#25773;&#23458;&#21019;&#20316;</span>
+      <span class="marquee-item"><span class="dot"></span>&#19968;&#32423;&#24066;&#22330;&#25237;&#30740;</span>
+      <span class="marquee-item"><span class="dot"></span>AI Agent</span>
+      <span class="marquee-item"><span class="dot"></span>Prompt Engineering</span>
+      <span class="marquee-item"><span class="dot"></span>&#21830;&#19994;&#20998;&#26512;</span>
+      <span class="marquee-item"><span class="dot"></span>&#20986;&#28023;&#25112;&#30053;</span>
+      <span class="marquee-item"><span class="dot"></span>&#25968;&#25454;&#39537;&#21160;</span>
+      <span class="marquee-item"><span class="dot"></span>LLM &#24212;&#29992;</span>
+      <span class="marquee-item"><span class="dot"></span>&#31454;&#21697;&#30740;&#31350;</span>
+      <span class="marquee-item"><span class="dot"></span>&#29992;&#25143;&#22686;&#38271;</span>
+      <span class="marquee-item"><span class="dot"></span>&#20135;&#21697;&#25112;&#30053;</span>
+      <span class="marquee-item"><span class="dot"></span>N8N &#33258;&#21160;&#21270;</span>
+      <span class="marquee-item"><span class="dot"></span>&#25773;&#23458;&#21019;&#20316;</span>
+      <span class="marquee-item"><span class="dot"></span>&#19968;&#32423;&#24066;&#22330;&#25237;&#30740;</span>
+    </div>
+  </div>
+
+  <section id="experience">
+    <div class="container">
+      <div class="section-header reveal"><h2>Experience</h2><p>从金融到 AI，持续进化的产品之路</p></div>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-meta"><div><div class="timeline-title">商分实习生</div><div class="timeline-company">美团</div></div><span class="timeline-period">2026.05 — 2026.08</span></div>
+          <ul>
+            <li>引入 AI 大模型实现基于 <strong>LLM 的实时选品能力</strong>，释放人力并提升策略敏捷性</li>
+            <li>搭建「核心供给 × 分时段 × 分场景 × 千人多面」<strong>精准补贴模型</strong></li>
+            <li>从 0 到 1 搭建<strong>智能交互系统</strong>：智能审批、预算管理、效果分析全自动化</li>
+            <li>DSS 竞品采集能力建设，增量撬动比异动归因与预算分配策略输出</li>
+          </ul>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-meta"><div><div class="timeline-title">AI Agent 产品实习生</div><div class="timeline-company">百度</div></div><span class="timeline-period">2026.02 — 2026.04</span></div>
+          <ul>
+            <li>为 <strong>Genflow</strong>（内嵌网盘 & 文库的通用 Agent）搭建两期核心数据报表体系</li>
+            <li>针对 Agent 工具选择错误开展<strong>全链路 Badcase 归因分析</strong></li>
+            <li>为 Genflow 4.0 意图分流模块建立<strong>标准化评测体系</strong>，制定意图 Tag 分类标准</li>
+          </ul>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-meta"><div><div class="timeline-title">AI 战略实习生</div><div class="timeline-company">百度</div></div><span class="timeline-period">2025.10 — 2026.02</span></div>
+          <ul>
+            <li>深度参与网盘出海产品 <strong>Terabox 三年规划</strong>，拆解海外云盘竞争格局</li>
+            <li>聚焦 <strong>GEO、AI 搜索</strong>等前沿方向，评估增长天花板并输出落地策略</li>
+            <li>覆盖夸克、ima、Notion、Grammarly、Dropbox 等<strong>产品专项分析</strong></li>
+            <li>研究 Gemini × NotebookLM 融合路径，输出<strong>AI 知识产品形态洞察</strong></li>
+          </ul>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-meta"><div><div class="timeline-title">TikTok 直播战略实习生</div><div class="timeline-company">字节跳动</div></div><span class="timeline-period">2025.06 — 2025.09</span></div>
+          <ul>
+            <li>主导 <strong>YouTube 全球直播战略研究</strong>，拆解创作者分层与商业化模式</li>
+            <li>独立完成 2024 年<strong>海外直播市场规模测算</strong>，交叉验证 20+ 竞品数据</li>
+            <li>用 <strong>N8N</strong> 搭建竞品监控自动化工作流，节省 80% 信息收集工时</li>
+            <li>参与 AI 纪要生成 Prompt 工程，实现会议纪要 90% 自动化</li>
+          </ul>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-meta"><div><div class="timeline-title">投资实习生</div><div class="timeline-company">中金资本 · 文化消费基金</div></div><span class="timeline-period">2025.02 — 2025.05</span></div>
+          <ul>
+            <li>主导消费行业热点追踪，构建<strong>投资热力图</strong>，识别高景气赛道</li>
+            <li>深度参与多个核心消费项目投前研究，完成项目 <strong>One-pager</strong></li>
+            <li>覆盖香水、植物提取、美甲机器人等细分赛道独立研究</li>
+          </ul>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-meta"><div><div class="timeline-title">FA 消费组实习生</div><div class="timeline-company">宸睿资本</div></div><span class="timeline-period">2024.09 — 2025.01</span></div>
+          <ul>
+            <li>独立撰写大健康消费赛道<strong>万字行业深度报告</strong></li>
+            <li>系统性扫描并 Mapping 大健康消费领域一级市场潜在标的 <strong>500+</strong> 家</li>
+            <li>独立负责零售咖啡项目 BP 撰写 & 华东预制菜市场规模预测建模</li>
+          </ul>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-meta"><div><div class="timeline-title">军工研究所实习生</div><div class="timeline-company">国盛证券（新财富第二团队）</div></div><span class="timeline-period">2024.02 — 2024.08</span></div>
+          <ul>
+            <li>参与「<strong>低空经济</strong>」产业深度报告，独立负责基础设施章节，测算近万亿市场空间</li>
+            <li>独立完成「<strong>卫星互联网</strong>」手机直连卫星技术专题研究</li>
+            <li>利用 WIND 等工具进行行业动态高频监控，产出资讯简报</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="container">
+      <div class="section-header reveal"><h2>Education</h2><p>珞珈山下，四年成长</p></div>
+      <div class="edu-grid">
+        <div class="edu-card reveal">
+          <div class="edu-period">2025.09 — 2027.06</div>
+          <div class="edu-title">金融硕士</div>
+          <div class="edu-detail">武汉大学</div>
+        </div>
+        <div class="edu-card reveal">
+          <div class="edu-period">2021.09 — 2025.06</div>
+          <div class="edu-title">国际金融实验班</div>
+          <div class="edu-detail">武汉大学 · GPA 3.7/4.0 · 专业前20% · 保研</div>
+          <div class="edu-highlight">核心课程：概率论(96) · Python(95) · 固定收入证券(95) · 国际经济学(93)</div>
+        </div>
+      </div>
+      <div class="awards-grid" style="margin-top:2.5rem;">
+        <div class="award-item reveal"><div class="emoji">&#129351;</div><div class="info"><h4>全国高校商业精英挑战赛「精创教育杯」</h4><p>全国一等奖</p></div></div>
+        <div class="award-item reveal"><div class="emoji">&#129351;</div><div class="info"><h4>全国高校商业精英挑战赛「云泽杯」营销模拟决策</h4><p>全国一等奖</p></div></div>
+        <div class="award-item reveal"><div class="emoji">&#129352;</div><div class="info"><h4>全国高校商业精英挑战赛 国际贸易竞赛</h4><p>全国二等奖</p></div></div>
+        <div class="award-item reveal"><div class="emoji">&#127891;</div><div class="info"><h4>武汉大学乙等奖学金（专业前15%）· 三好学生</h4><p>一作论文：《加入RCEP对中国制造业全球价值链地位和参与度的影响》</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <div class="section-header reveal"><h2>Skills</h2><p>产品 × 数据 × AI 的交叉能力</p></div>
+      <div class="skills-grid">
+        <div class="skill-card reveal"><h4>&#129302; AI & Product</h4><div class="skill-tags"><span class="skill-tag">AI Agent</span><span class="skill-tag">Prompt Engineering</span><span class="skill-tag">LLM 应用</span><span class="skill-tag">产品规划</span><span class="skill-tag">竞品分析</span><span class="skill-tag">评测体系</span></div></div>
+        <div class="skill-card reveal"><h4>&#128202; Data & Analysis</h4><div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span class="skill-tag">R</span><span class="skill-tag">Stata</span><span class="skill-tag">MATLAB</span><span class="skill-tag">数据可视化</span></div></div>
+        <div class="skill-card reveal"><h4>&#128736;&#65039; Tools & More</h4><div class="skill-tags"><span class="skill-tag">Wind</span><span class="skill-tag">Capital IQ</span><span class="skill-tag">N8N</span><span class="skill-tag">Figma</span><span class="skill-tag">Photoshop</span><span class="skill-tag">Notion</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-header reveal"><h2>About</h2><p>不只是产品经理</p></div>
+      <div class="about-grid">
+        <div class="about-item reveal"><div class="emoji">&#127897;&#65039;</div><div class="label">播客</div><div class="value">百里挑一</div></div>
+        <div class="about-item reveal"><div class="emoji">&#128131;</div><div class="label">舞蹈</div><div class="value">民族舞十级</div></div>
+        <div class="about-item reveal"><div class="emoji">&#128218;</div><div class="label">阅读</div><div class="value">年均 100+</div></div>
+        <div class="about-item reveal"><div class="emoji">&#128213;</div><div class="label">小红书</div><div class="value">博主</div></div>
+        <div class="about-item reveal"><div class="emoji">&#9997;&#65039;</div><div class="label">公众号</div><div class="value">百里回声</div></div>
+        <div class="about-item reveal"><div class="emoji">&#128483;&#65039;</div><div class="label">普通话</div><div class="value">一级乙等</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="section-header reveal" style="text-align:center;"><h2>Contact</h2><p>期待与你交流</p></div>
+      <div class="contact-btns reveal">
+        <a href="mailto:liyiming.1031@gmail.com" class="btn btn-primary">&#128236; 发送邮件</a>
+        <a href="https://namecard.xiaoyuzhoufm.com/ypl9a" class="btn btn-ghost" target="_blank">&#127897;&#65039; 播客名片</a>
+        <a href="https://github.com/liyiming1031-eng" class="btn btn-ghost" target="_blank">GitHub</a>
+      </div>
+      <div class="contact-meta reveal"><p>「让 AI 不只是技术，而是<strong>好用的产品</strong>。」</p></div>
+    </div>
+  </section>
+
+  <footer><p>&copy; 2025 Yiming Li &middot; Built with &#9749; and curiosity</p></footer>
+
+  <script>
+    const glow=document.querySelector('.cursor-glow');
+    if(window.innerWidth>768){document.addEventListener('mousemove',e=>{glow.style.transform=`translate(${e.clientX-200}px,${e.clientY-200}px)`});}
+
+    const progress=document.querySelector('.scroll-progress');
+    const nav2=document.querySelector('nav');
+    window.addEventListener('scroll',()=>{
+      const h=document.documentElement.scrollHeight-window.innerHeight;
+      progress.style.width=(window.scrollY/h*100)+'%';
+      nav2.classList.toggle('scrolled',window.scrollY>10);
+    });
+
+    const titleEl=document.getElementById('hero-title');
+    const t1='\u4f60\u597d\uff0c\u6211\u662f';const t2='Yiming';
+    let html='',idx=0;
+    for(const ch of t1){html+=`<span class="char" style="animation-delay:${0.6+idx*0.04}s">${ch}</span>`;idx++;}
+    html+='<br><span class="accent">';
+    for(const ch of t2){html+=`<span class="char" style="animation-delay:${0.6+idx*0.04}s">${ch}</span>`;idx++;}
+    html+='</span>';titleEl.innerHTML=html;
+
+    setTimeout(()=>{
+      document.querySelector('.hero-label').classList.add('animate');
+      document.querySelectorAll('.hero h1 .char').forEach(c=>c.classList.add('animate'));
+      document.querySelector('.hero .desc').classList.add('animate');
+      document.querySelector('.hero-btns').classList.add('animate');
+      document.querySelector('.hero-stats').classList.add('animate');
+      document.getElementById('heroCard').classList.add('animate');
+    },100);
+
+    const card=document.getElementById('heroCard');
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-0.5;
+      const y=(e.clientY-r.top)/r.height-0.5;
+      card.style.transform=`rotateY(${x*10}deg) rotateX(${-y*10}deg)`;
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='rotateY(0) rotateX(0)';});
+
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+    },{threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+  </script>
+</body>
+</html>
