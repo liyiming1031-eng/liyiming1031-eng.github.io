@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yiming Li | AI Product Manager</title>
+  <title>Elaine Li | AI Product Manager</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --bg: #fafaf9; --bg-alt: #f5f5f4; --bg-card: #ffffff;
       --text: #1c1917; --text-secondary: #78716c; --text-tertiary: #a8a29e;
-      --accent: #7c3aed; --accent-light: #a78bfa;
-      --accent-bg: rgba(124, 58, 237, 0.08);
+      --accent: #7c3aed; --accent-light: #a78bfa; --accent-2: #ec4899;
+      --accent-bg: rgba(124,58,237,0.08); --accent-bg2: rgba(236,72,153,0.07);
       --border: #e7e5e4; --border-light: #f5f5f4;
       --shadow-sm: 0 1px 2px rgba(28,25,23,0.04);
       --shadow-md: 0 4px 16px rgba(28,25,23,0.06);
       --shadow-lg: 0 12px 40px rgba(28,25,23,0.08);
-      --radius: 16px; --radius-sm: 10px;
+      --shadow-xl: 0 24px 64px rgba(28,25,23,0.12);
+      --radius: 16px; --radius-sm: 10px; --radius-xs: 6px;
       --font: 'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;
       --max-width: 1080px;
     }
@@ -27,163 +28,242 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--accent-bg); color: var(--accent); }
 
-    .cursor-glow { position: fixed; top: 0; left: 0; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%); pointer-events: none; z-index: 0; transform: translate(-50%,-50%); will-change: transform; }
-    @media (max-width: 768px) { .cursor-glow { display: none; } }
+    /* ── Custom cursor ── */
+    .cursor { position: fixed; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s, width 0.25s cubic-bezier(0.4,0,0.2,1), height 0.25s cubic-bezier(0.4,0,0.2,1), background 0.25s; mix-blend-mode: multiply; }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1.5px solid rgba(124,58,237,0.35); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform 0.08s, width 0.3s cubic-bezier(0.4,0,0.2,1), height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s, border-color 0.3s; }
+    body:has(a:hover) .cursor { width: 6px; height: 6px; }
+    body:has(a:hover) .cursor-ring { width: 52px; height: 52px; border-color: rgba(124,58,237,0.5); }
+    @media (max-width: 768px) { .cursor, .cursor-ring { display: none; } }
 
-    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 200; width: 0; }
+    /* ── Cursor glow ── */
+    .cursor-glow { position: fixed; top: 0; left: 0; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 65%); pointer-events: none; z-index: 0; transform: translate(-50%,-50%); will-change: transform; transition: transform 0.05s linear; }
 
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 2rem; height: 64px; display: flex; justify-content: space-between; align-items: center; background: rgba(250,250,249,0.8); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); transition: box-shadow 0.3s; }
-    nav.scrolled { box-shadow: 0 1px 0 var(--border); }
-    nav .logo { font-size: 0.95rem; font-weight: 600; letter-spacing: 0.5px; position: relative; }
-    nav .logo::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1.5px; background: var(--accent); transition: width 0.3s; }
-    nav .logo:hover::after { width: 100%; }
-    nav .nav-links { display: flex; gap: 2rem; list-style: none; }
-    nav .nav-links a { font-size: 0.85rem; color: var(--text-secondary); font-weight: 400; transition: color 0.2s; position: relative; padding-bottom: 4px; }
+    /* ── Scroll progress ── */
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); z-index: 200; width: 0; transition: width 0.1s linear; }
+
+    /* ── Nav ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 2.5rem; height: 64px; display: flex; justify-content: space-between; align-items: center; background: rgba(250,250,249,0); backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s; }
+    nav.scrolled { background: rgba(250,250,249,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); box-shadow: 0 1px 0 var(--border); }
+    nav .logo { font-size: 0.95rem; font-weight: 700; letter-spacing: -0.01em; display: flex; align-items: center; gap: 0.5rem; }
+    .logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.7; } }
+    nav .nav-links { display: flex; gap: 2.25rem; list-style: none; }
+    nav .nav-links a { font-size: 0.83rem; color: var(--text-secondary); font-weight: 400; transition: color 0.2s; position: relative; padding-bottom: 3px; }
     nav .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px; background: var(--accent); transition: width 0.3s cubic-bezier(0.4,0,0.2,1); }
     nav .nav-links a:hover { color: var(--text); }
     nav .nav-links a:hover::after { width: 100%; }
+    nav .nav-links a.active { color: var(--accent); }
+    nav .nav-links a.active::after { width: 100%; }
 
+    /* ── Layout ── */
     .container { max-width: var(--max-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
     section { padding: 7rem 0; }
     .section-header { margin-bottom: 3rem; }
-    .section-header h2 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text-tertiary); margin-bottom: 0.75rem; }
-    .section-header p { font-size: 1.75rem; font-weight: 600; line-height: 1.3; }
+    .section-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-tertiary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-label::before { content: ''; width: 24px; height: 1.5px; background: var(--text-tertiary); }
+    .section-title { font-size: 1.85rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; }
 
-    .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 64px; }
+    /* ── Hero ── */
+    .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 64px; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(124,58,237,0.06) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 20% 70%, rgba(236,72,153,0.04) 0%, transparent 60%); pointer-events: none; }
     .hero .container { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
     .hero-text { max-width: 520px; }
-    .hero-label { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 500; color: var(--accent); margin-bottom: 1.5rem; opacity: 0; transform: translateY(20px); }
-    .hero-label.animate { animation: fadeUp 0.6s 0.2s forwards; }
-    .hero h1 { font-size: clamp(2.8rem,5vw,3.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
-    .hero h1 .char { display: inline-block; opacity: 0; transform: translateY(30px); }
-    .hero h1 .char.animate { animation: charReveal 0.5s forwards; }
-    .hero h1 span.accent { color: var(--accent); }
-    .hero .desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; opacity: 0; transform: translateY(20px); }
-    .hero .desc.animate { animation: fadeUp 0.6s 1.4s forwards; }
-    .hero-btns { display: flex; gap: 0.75rem; opacity: 0; transform: translateY(20px); }
-    .hero-btns.animate { animation: fadeUp 0.6s 1.6s forwards; }
-    .hero-stats { display: flex; gap: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); opacity: 0; transform: translateY(20px); }
-    .hero-stats.animate { animation: fadeUp 0.6s 1.8s forwards; }
-    .hero-stat .num { font-size: 1.5rem; font-weight: 700; }
-    .hero-stat .label { font-size: 0.78rem; color: var(--text-tertiary); margin-top: 0.15rem; }
 
-    .hero-visual { display: flex; justify-content: center; align-items: center; perspective: 1000px; }
-    .hero-card { width: 100%; max-width: 380px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-lg); transform-style: preserve-3d; transition: transform 0.15s ease-out, box-shadow 0.3s; opacity: 0; transform: translateY(40px) rotateX(5deg); }
-    .hero-card.animate { animation: cardAppear 0.8s 0.6s forwards; }
-    .hero-card:hover { box-shadow: 0 20px 60px rgba(28,25,23,0.12); }
-    .hero-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
-    .hero-card-role { font-size: 0.78rem; font-weight: 500; color: var(--accent); background: var(--accent-bg); padding: 0.3rem 0.75rem; border-radius: 20px; }
-    .hero-card-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-light)); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; color: #fff; transform: translateZ(20px); }
-    .hero-card h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; transform: translateZ(10px); }
-    .hero-card .bio { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; transform: translateZ(8px); }
-    .hero-card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; transform: translateZ(15px); }
-    .hero-card-tags span { font-size: 0.75rem; padding: 0.3rem 0.7rem; background: var(--bg-alt); border-radius: 6px; color: var(--text-secondary); font-weight: 500; transition: all 0.2s; }
-    .hero-card-tags span:hover { background: var(--accent-bg); color: var(--accent); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-weight: 500; color: var(--accent); background: var(--accent-bg); border: 1px solid rgba(124,58,237,0.15); padding: 0.35rem 0.85rem; border-radius: 20px; margin-bottom: 1.75rem; opacity: 0; transform: translateY(16px); animation: fadeUp 0.6s 0.3s forwards; }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
 
-    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: var(--radius-sm); font-size: 0.88rem; font-weight: 500; transition: all 0.25s cubic-bezier(0.4,0,0.2,1); cursor: pointer; border: none; font-family: var(--font); }
-    .btn-primary { background: var(--text); color: var(--bg); }
-    .btn-primary:hover { background: #292524; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .hero h1 { font-size: clamp(2.6rem,5vw,3.4rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 1.5rem; }
+    .hero h1 .char { display: inline-block; opacity: 0; transform: translateY(28px); }
+    .hero h1 .char.animate { animation: charReveal 0.45s forwards cubic-bezier(0.22,1,0.36,1); }
+    .hero h1 .accent { color: var(--accent); font-style: italic; font-family: 'Playfair Display', serif; }
+
+    .hero-desc { font-size: 1rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 2rem; opacity: 0; transform: translateY(16px); animation: fadeUp 0.6s 1.5s forwards; }
+
+    .hero-btns { display: flex; gap: 0.75rem; margin-bottom: 2.5rem; opacity: 0; transform: translateY(16px); animation: fadeUp 0.6s 1.7s forwards; }
+
+    .hero-stats { display: flex; gap: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); opacity: 0; transform: translateY(16px); animation: fadeUp 0.6s 1.9s forwards; }
+    .hero-stat .num { font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-stat .label { font-size: 0.75rem; color: var(--text-tertiary); margin-top: 0.1rem; }
+
+    /* ── Profile card (right side) ── */
+    .hero-visual { display: flex; justify-content: center; align-items: center; perspective: 1200px; }
+    .profile-card-wrap { width: 100%; max-width: 380px; opacity: 0; transform: translateY(36px) rotateX(8deg); animation: cardAppear 0.9s 0.5s forwards cubic-bezier(0.22,1,0.36,1); transform-style: preserve-3d; }
+    .profile-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; box-shadow: var(--shadow-xl); transform-style: preserve-3d; transition: transform 0.12s ease-out, box-shadow 0.3s; }
+    .profile-card:hover { box-shadow: 0 28px 80px rgba(28,25,23,0.14); }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+    .card-role-badge { font-size: 0.75rem; font-weight: 500; color: var(--accent); background: var(--accent-bg); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid rgba(124,58,237,0.12); }
+    .card-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; font-weight: 700; color: #fff; transform: translateZ(24px); box-shadow: 0 8px 24px rgba(124,58,237,0.3); }
+    .card-name { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.25rem; letter-spacing: -0.02em; transform: translateZ(12px); }
+    .card-name-cn { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0.75rem; transform: translateZ(8px); }
+    .card-bio { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.75; border-top: 1px solid var(--border-light); padding-top: 0.75rem; transform: translateZ(6px); }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1.1rem; transform: translateZ(16px); }
+    .card-tags span { font-size: 0.73rem; padding: 0.28rem 0.65rem; background: var(--bg-alt); border-radius: 6px; color: var(--text-secondary); font-weight: 500; transition: all 0.25s; border: 1px solid transparent; cursor: default; }
+    .card-tags span:hover { background: var(--accent-bg); color: var(--accent); border-color: rgba(124,58,237,0.15); transform: translateY(-2px); }
+    /* Floating chips around card */
+    .float-chips { position: absolute; right: -24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0.6rem; }
+    .float-chip { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.75rem; font-size: 0.72rem; font-weight: 500; color: var(--text-secondary); box-shadow: var(--shadow-md); white-space: nowrap; animation: floatY 4s ease-in-out infinite; }
+    .float-chip:nth-child(2) { animation-delay: -1.3s; }
+    .float-chip:nth-child(3) { animation-delay: -2.6s; }
+    @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+    /* ── Buttons ── */
+    .btn { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.7rem 1.55rem; border-radius: var(--radius-sm); font-size: 0.86rem; font-weight: 500; transition: all 0.25s cubic-bezier(0.4,0,0.2,1); cursor: pointer; border: none; font-family: var(--font); position: relative; overflow: hidden; }
+    .btn::after { content: ''; position: absolute; inset: 0; background: white; opacity: 0; transition: opacity 0.2s; }
+    .btn:hover::after { opacity: 0.08; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), #6d28d9); color: white; box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
     .btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
-    .btn-ghost:hover { border-color: var(--text-tertiary); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
 
-    .marquee-section { padding: 3rem 0; overflow: hidden; }
-    .marquee-track { display: flex; gap: 1rem; animation: marquee 35s linear infinite; width: max-content; }
+    /* ── Marquee ── */
+    .marquee-section { padding: 2.5rem 0; overflow: hidden; position: relative; }
+    .marquee-section::before, .marquee-section::after { content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none; }
+    .marquee-section::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+    .marquee-section::after { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+    .marquee-track { display: flex; gap: 0.85rem; animation: marquee 40s linear infinite; width: max-content; }
     .marquee-track:hover { animation-play-state: paused; }
-    .marquee-item { font-size: 0.82rem; padding: 0.5rem 1.1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; color: var(--text-secondary); white-space: nowrap; transition: all 0.3s; }
-    .marquee-item:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 2px 12px rgba(124,58,237,0.1); }
-    .marquee-item .dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-right: 0.5rem; opacity: 0.6; }
+    .marquee-item { font-size: 0.8rem; padding: 0.45rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; color: var(--text-secondary); white-space: nowrap; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); cursor: default; }
+    .marquee-item:hover { border-color: var(--accent); color: var(--accent); transform: scale(1.05); box-shadow: 0 4px 16px rgba(124,58,237,0.12); }
+    .marquee-item .dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-right: 0.45rem; opacity: 0.5; vertical-align: middle; }
 
-    /* Timeline */
-    .timeline { display: flex; flex-direction: column; }
-    .timeline-item { padding: 2rem 0; border-bottom: 1px solid var(--border-light); }
-    .timeline-item:last-child { border-bottom: none; }
-    .timeline-item:first-child { padding-top: 0; }
-    .timeline-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-    .timeline-period { font-size: 0.78rem; font-weight: 500; color: var(--accent); white-space: nowrap; }
-    .timeline-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.15rem; }
-    .timeline-company { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem; }
-    .timeline-item ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-    .timeline-item li { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; padding-left: 1.25rem; position: relative; }
-    .timeline-item li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 4px; height: 4px; border-radius: 50%; background: var(--text-tertiary); transition: all 0.3s; }
-    .timeline-item li:hover::before { background: var(--accent); box-shadow: 0 0 8px rgba(124,58,237,0.4); }
-    .timeline-item li strong { color: var(--text); font-weight: 500; }
-    .timeline-sub { margin-top: 0.4rem; padding-left: 1.25rem; }
-    .timeline-sub li { font-size: 0.83rem; }
-    .timeline-sub li::before { width: 3px; height: 3px; top: 0.6em; background: var(--border); }
+    /* ── Timeline (accordion style) ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item { border-bottom: 1px solid var(--border-light); position: relative; }
+    .tl-item:first-child { border-top: 1px solid var(--border-light); }
+    .tl-header { display: flex; justify-content: space-between; align-items: center; padding: 1.6rem 0; cursor: pointer; gap: 1rem; user-select: none; }
+    .tl-header:hover .tl-left .tl-title { color: var(--accent); }
+    .tl-left { display: flex; gap: 1.25rem; align-items: flex-start; flex: 1; min-width: 0; }
+    .tl-company-badge { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-alt); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: var(--text-secondary); flex-shrink: 0; transition: all 0.3s; letter-spacing: 0.5px; }
+    .tl-item.open .tl-company-badge { background: var(--accent-bg); border-color: rgba(124,58,237,0.2); color: var(--accent); }
+    .tl-info { flex: 1; min-width: 0; }
+    .tl-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.15rem; transition: color 0.2s; }
+    .tl-company { font-size: 0.83rem; color: var(--text-secondary); }
+    .tl-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; flex-shrink: 0; }
+    .tl-period { font-size: 0.75rem; font-weight: 500; color: var(--accent); background: var(--accent-bg); padding: 0.2rem 0.6rem; border-radius: 12px; white-space: nowrap; }
+    .tl-chevron { width: 20px; height: 20px; border-radius: 50%; background: var(--bg-alt); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0; }
+    .tl-chevron svg { width: 10px; height: 10px; stroke: var(--text-tertiary); transition: stroke 0.2s; }
+    .tl-item.open .tl-chevron { background: var(--accent); border-color: var(--accent); transform: rotate(180deg); }
+    .tl-item.open .tl-chevron svg { stroke: white; }
+    .tl-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.35s; opacity: 0; }
+    .tl-item.open .tl-body { max-height: 2000px; opacity: 1; }
+    .tl-body-inner { padding: 0 0 1.75rem 3.25rem; }
+    .tl-body-inner ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .tl-body-inner li { font-size: 0.87rem; color: var(--text-secondary); line-height: 1.75; padding-left: 1.25rem; position: relative; }
+    .tl-body-inner li::before { content: ''; position: absolute; left: 0; top: 0.58em; width: 4px; height: 4px; border-radius: 50%; background: var(--accent-light); transition: all 0.3s; }
+    .tl-body-inner li:hover::before { background: var(--accent); box-shadow: 0 0 8px rgba(124,58,237,0.4); transform: scale(1.4); }
+    .tl-body-inner li strong { color: var(--text); font-weight: 600; }
+    .tl-body-inner .sub-list { margin-top: 0.5rem; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .tl-body-inner .sub-list li { font-size: 0.82rem; }
+    .tl-body-inner .sub-list li::before { width: 3px; height: 3px; background: var(--border); top: 0.62em; }
+    .tl-tag { display: inline-block; font-size: 0.7rem; font-weight: 500; padding: 0.15rem 0.5rem; border-radius: 4px; margin-left: 0.35rem; vertical-align: middle; }
+    .tl-tag.ai { background: var(--accent-bg); color: var(--accent); }
+    .tl-tag.data { background: rgba(16,185,129,0.08); color: #059669; }
+    .tl-tag.strategy { background: rgba(245,158,11,0.1); color: #d97706; }
 
-    /* Education */
+    /* ── Education ── */
     .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-    .edu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; }
-    .edu-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .edu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; cursor: default; }
+    .edu-card-glow { position: absolute; inset: 0; opacity: 0; background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(124,58,237,0.07) 0%, transparent 60%); transition: opacity 0.3s; pointer-events: none; border-radius: var(--radius); }
+    .edu-card:hover .edu-card-glow { opacity: 1; }
+    .edu-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform: scaleX(0); transform-origin: left; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); }
     .edu-card:hover::before { transform: scaleX(1); }
     .edu-card:hover { border-color: #d6d3d1; box-shadow: var(--shadow-md); transform: translateY(-3px); }
-    .edu-period { font-size: 0.78rem; color: var(--accent); font-weight: 500; }
-    .edu-title { font-size: 1.05rem; font-weight: 600; margin: 0.5rem 0 0.25rem; }
-    .edu-detail { font-size: 0.85rem; color: var(--text-secondary); }
-    .edu-highlight { margin-top: 0.75rem; font-size: 0.82rem; font-weight: 500; color: var(--accent); }
-    .edu-courses { margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.8; }
+    .edu-period { font-size: 0.75rem; color: var(--accent); font-weight: 500; }
+    .edu-title { font-size: 1.05rem; font-weight: 700; margin: 0.5rem 0 0.25rem; letter-spacing: -0.01em; }
+    .edu-detail { font-size: 0.84rem; color: var(--text-secondary); }
+    .edu-highlight { margin-top: 0.75rem; font-size: 0.8rem; font-weight: 500; color: var(--accent); line-height: 1.6; }
+    .edu-courses { margin-top: 0.75rem; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.85; }
 
-    /* Awards */
-    .awards-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
-    .award-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; transition: all 0.25s; }
-    .award-item:hover { border-color: #d6d3d1; transform: translateX(4px); }
-    .award-item .emoji { font-size: 1.5rem; flex-shrink: 0; }
-    .award-item .info h4 { font-size: 0.92rem; font-weight: 600; }
-    .award-item .info p { font-size: 0.82rem; color: var(--text-secondary); }
+    /* ── Awards ── */
+    .awards-grid { display: grid; grid-template-columns: 1fr; gap: 0.6rem; }
+    .award-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.1rem 1.4rem; display: flex; align-items: center; gap: 1rem; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+    .award-item:hover { border-color: rgba(124,58,237,0.25); transform: translateX(6px); box-shadow: var(--shadow-sm); }
+    .award-item .aw-emoji { font-size: 1.4rem; flex-shrink: 0; transition: transform 0.3s; }
+    .award-item:hover .aw-emoji { transform: scale(1.2) rotate(-5deg); }
+    .award-item .info h4 { font-size: 0.88rem; font-weight: 600; }
+    .award-item .info p { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.1rem; }
 
-    /* Skills */
+    /* ── Skills ── */
     .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-    .skill-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: all 0.3s; }
-    .skill-card:hover { border-color: #d6d3d1; box-shadow: var(--shadow-sm); }
-    .skill-card h4 { font-size: 0.82rem; font-weight: 600; margin-bottom: 1rem; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .skill-tag { font-size: 0.78rem; padding: 0.35rem 0.7rem; background: var(--bg-alt); border-radius: 6px; color: var(--text-secondary); font-weight: 400; transition: all 0.25s; cursor: default; }
-    .skill-tag:hover { background: var(--accent); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,58,237,0.2); }
+    .skill-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: all 0.3s; position: relative; overflow: hidden; }
+    .skill-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: linear-gradient(to top, var(--accent-bg), transparent); transition: height 0.35s cubic-bezier(0.4,0,0.2,1); }
+    .skill-card:hover::after { height: 80px; }
+    .skill-card:hover { border-color: rgba(124,58,237,0.2); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .skill-card h4 { font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem; position: relative; z-index: 1; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; position: relative; z-index: 1; }
+    .skill-tag { font-size: 0.75rem; padding: 0.32rem 0.68rem; background: var(--bg-alt); border-radius: 6px; color: var(--text-secondary); font-weight: 400; transition: all 0.25s cubic-bezier(0.4,0,0.2,1); cursor: default; border: 1px solid transparent; }
+    .skill-tag:hover { background: var(--accent); color: #fff; transform: translateY(-2px) scale(1.04); box-shadow: 0 4px 12px rgba(124,58,237,0.25); border-color: var(--accent); }
 
-    /* About */
+    /* ── About ── */
     .about-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; }
-    .about-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem 0.75rem; text-align: center; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
-    .about-item:hover { border-color: #d6d3d1; transform: translateY(-3px); box-shadow: var(--shadow-md); }
-    .about-item .emoji { font-size: 1.5rem; margin-bottom: 0.5rem; transition: transform 0.3s; display: inline-block; }
-    .about-item:hover .emoji { transform: scale(1.2) rotate(8deg); }
-    .about-item .label { font-size: 0.7rem; color: var(--text-tertiary); margin-bottom: 0.2rem; }
-    .about-item .value { font-size: 0.78rem; font-weight: 500; color: var(--text-secondary); line-height: 1.4; }
+    .about-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.2rem 0.6rem; text-align: center; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); cursor: default; }
+    .about-item:hover { border-color: rgba(124,58,237,0.25); transform: translateY(-4px) scale(1.02); box-shadow: var(--shadow-md); }
+    .about-item .about-emoji { font-size: 1.6rem; margin-bottom: 0.5rem; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); display: inline-block; }
+    .about-item:hover .about-emoji { transform: scale(1.3) rotate(10deg); }
+    .about-item .about-label { font-size: 0.68rem; color: var(--text-tertiary); margin-bottom: 0.2rem; letter-spacing: 0.5px; }
+    .about-item .about-value { font-size: 0.76rem; font-weight: 600; color: var(--text-secondary); line-height: 1.4; }
 
-    /* Contact */
+    /* ── Contact ── */
     .contact-section { text-align: center; padding-bottom: 4rem; }
     .contact-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
-    .contact-meta { margin-top: 2rem; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8; }
-    .contact-meta strong { color: var(--accent); font-weight: 500; }
+    .contact-meta { margin-top: 2rem; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.9; }
+    .contact-meta strong { color: var(--accent); font-weight: 600; }
 
-    footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.78rem; color: var(--text-tertiary); }
+    /* ── Divider ── */
+    .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0; }
 
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1); }
+    /* ── Footer ── */
+    footer { padding: 2.5rem 2rem; text-align: center; font-size: 0.76rem; color: var(--text-tertiary); border-top: 1px solid var(--border); }
+    footer span { color: var(--accent); }
+
+    /* ── Reveal animations ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-24px); transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
 
+    /* ── Keyframes ── */
     @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
     @keyframes charReveal { to { opacity: 1; transform: translateY(0); } }
     @keyframes cardAppear { to { opacity: 1; transform: translateY(0) rotateX(0); } }
     @keyframes marquee { to { transform: translateX(-50%); } }
+    @keyframes countUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* ── Tooltip ── */
+    [data-tip] { position: relative; }
+    [data-tip]::before { content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--text); color: var(--bg); font-size: 0.72rem; padding: 0.3rem 0.65rem; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.2s; z-index: 10; }
+    [data-tip]:hover::before { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Responsive ── */
     @media (max-width: 768px) {
-      .hero .container { grid-template-columns: 1fr; gap: 2rem; }
+      .hero .container { grid-template-columns: 1fr; gap: 2.5rem; }
       .hero-visual { order: -1; }
-      .hero-card { max-width: 100%; }
+      .profile-card-wrap { max-width: 100%; }
+      .float-chips { display: none; }
       nav .nav-links { display: none; }
       .edu-grid, .skills-grid { grid-template-columns: 1fr; }
       .about-grid { grid-template-columns: repeat(3, 1fr); }
       section { padding: 4rem 0; }
+      .tl-body-inner { padding-left: 0; }
     }
   </style>
 </head>
 <body>
-  <div class="cursor-glow"></div>
-  <div class="scroll-progress"></div>
+  <!-- Custom cursor -->
+  <div class="cursor" id="cur"></div>
+  <div class="cursor-ring" id="curRing"></div>
+  <div class="cursor-glow" id="glow"></div>
+  <div class="scroll-progress" id="scrollProg"></div>
 
-  <nav>
-    <a href="#" class="logo">Yiming Li</a>
-    <ul class="nav-links">
+  <!-- ── Nav ── -->
+  <nav id="mainNav">
+    <a href="#" class="logo">
+      <span class="logo-dot"></span>
+      Elaine Li
+    </a>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#experience">实习经历</a></li>
       <li><a href="#projects">项目竞赛</a></li>
       <li><a href="#education">教育背景</a></li>
@@ -193,38 +273,53 @@
     </ul>
   </nav>
 
+  <!-- ── Hero ── -->
   <section class="hero">
+    <div class="hero-bg"></div>
     <div class="container">
       <div class="hero-text">
-        <div class="hero-label">&#10022; AI Product Manager</div>
-        <h1 id="hero-title"></h1>
-        <p class="desc">武汉大学金融硕士，关注 AIGC、AI Agent、人机交互方向。从投行研究到 AI 产品，一直在寻找技术与商业的最佳交汇点。</p>
+        <div class="hero-badge"><span class="hero-badge-dot"></span>AI Product Manager · 武汉大学金融硕士</div>
+        <h1 id="heroTitle"></h1>
+        <p class="hero-desc">关注 AIGC、AI Agent、人机交互方向。从投行研究到 AI 产品，一直在寻找技术与商业的最佳交汇点。</p>
         <div class="hero-btns">
-          <a href="#experience" class="btn btn-primary">查看经历 &rarr;</a>
+          <a href="#experience" class="btn btn-primary">查看经历 <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
           <a href="#contact" class="btn btn-ghost">联系我</a>
         </div>
         <div class="hero-stats">
-          <div class="hero-stat"><div class="num">7+</div><div class="label">段实习经历</div></div>
-          <div class="hero-stat"><div class="num">3</div><div class="label">次全国竞赛获奖</div></div>
-          <div class="hero-stat"><div class="num">100+</div><div class="label">年均阅读量</div></div>
+          <div class="hero-stat"><div class="num" data-target="7">0</div><div class="label">段实习经历</div></div>
+          <div class="hero-stat"><div class="num" data-target="3">0</div><div class="label">次全国竞赛获奖</div></div>
+          <div class="hero-stat"><div class="num" data-target="100" data-suffix="+">0</div><div class="label">年均阅读量</div></div>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="hero-card" id="heroCard">
-          <div class="hero-card-top">
-            <span class="hero-card-role">AI Product Manager</span>
-            <div class="hero-card-avatar">YL</div>
+      <div class="hero-visual" style="position:relative;">
+        <div class="profile-card-wrap">
+          <div class="profile-card" id="heroCard">
+            <div class="card-top">
+              <span class="card-role-badge">AI Product Manager</span>
+              <div class="card-avatar">EL</div>
+            </div>
+            <div class="card-name">Elaine Li</div>
+            <div class="card-name-cn">李翊铭</div>
+            <p class="card-bio">武汉大学金融硕士，用 AI 重新定义产品体验，用数据驱动商业决策。播客「百里挑一」主播，公众号「百里回声」作者。</p>
+            <div class="card-tags">
+              <span data-tip="百度·美团">AI Product</span>
+              <span data-tip="TikTok·百度">Strategy</span>
+              <span data-tip="Python·R·Stata">Data Analysis</span>
+              <span data-tip="N8N自动化">Automation</span>
+              <span data-tip="小宇宙播客">Podcaster</span>
+            </div>
           </div>
-          <h3>Yiming Li · 李翊铭</h3>
-          <p class="bio">武汉大学金融硕士，用 AI 重新定义产品体验，用数据驱动商业决策。播客「百里挑一」主播，公众号「百里回声」作者。</p>
-          <div class="hero-card-tags">
-            <span>AI Product</span><span>Strategy</span><span>Data Analysis</span><span>Python</span><span>Podcaster</span>
-          </div>
+        </div>
+        <div class="float-chips">
+          <div class="float-chip">🤖 LLM 应用</div>
+          <div class="float-chip">📊 商业分析</div>
+          <div class="float-chip">🌏 出海战略</div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ── Marquee ── -->
   <div class="marquee-section">
     <div class="marquee-track">
       <span class="marquee-item"><span class="dot"></span>AI Agent</span>
@@ -237,8 +332,8 @@
       <span class="marquee-item"><span class="dot"></span>用户增长</span>
       <span class="marquee-item"><span class="dot"></span>产品战略</span>
       <span class="marquee-item"><span class="dot"></span>N8N 自动化</span>
-      <span class="marquee-item"><span class="dot"></span>创作者</span>
       <span class="marquee-item"><span class="dot"></span>一级市场投研</span>
+      <span class="marquee-item"><span class="dot"></span>评测体系</span>
       <span class="marquee-item"><span class="dot"></span>AI Agent</span>
       <span class="marquee-item"><span class="dot"></span>Prompt Engineering</span>
       <span class="marquee-item"><span class="dot"></span>商业分析</span>
@@ -249,332 +344,374 @@
       <span class="marquee-item"><span class="dot"></span>用户增长</span>
       <span class="marquee-item"><span class="dot"></span>产品战略</span>
       <span class="marquee-item"><span class="dot"></span>N8N 自动化</span>
-      <span class="marquee-item"><span class="dot"></span>创作者</span>
       <span class="marquee-item"><span class="dot"></span>一级市场投研</span>
+      <span class="marquee-item"><span class="dot"></span>评测体系</span>
     </div>
   </div>
 
-  <!-- ===== 实习经历 ===== -->
+  <!-- ── 实习经历 ── -->
   <section id="experience">
     <div class="container">
-      <div class="section-header reveal"><h2>Experience</h2><p>从金融到 AI，持续进化的产品之路</p></div>
+      <div class="section-header reveal">
+        <div class="section-label">Experience</div>
+        <div class="section-title">从金融到 AI，持续进化的产品之路</div>
+      </div>
       <div class="timeline">
 
         <!-- 美团 -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">商分实习生</div>
-              <div class="timeline-company">美团</div>
+        <div class="tl-item reveal" data-index="0">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">MT</div>
+              <div class="tl-info">
+                <div class="tl-title">商分实习生</div>
+                <div class="tl-company">美团</div>
+              </div>
             </div>
-            <span class="timeline-period">2026.05 — 2026.08</span>
+            <div class="tl-right">
+              <span class="tl-period">2026.05 — 2026.08</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>
-              <strong>BML 补贴提效项目</strong>：面对白热化市场竞争，聚焦补贴策略全面升级——
-              <ul class="timeline-sub">
-                <li>选品侧：引入 AI 大模型能力，结合策略信息输入，实现<strong>基于 LLM 的实时选品</strong>，释放人力并提升策略敏捷性</li>
-                <li>量价侧：深挖用户消费特征，搭建「核心供给 × 分时段 × 分场景 × 千人多面」<strong>精准补贴模型</strong>，增强摇摆用户低价感知，提升补贴效率</li>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li><strong>BML 补贴提效项目</strong><span class="tl-tag ai">AI</span>：面对白热化市场竞争，聚焦补贴策略全面升级——
+                  <ul class="sub-list">
+                    <li>选品侧：引入 AI 大模型能力，结合策略信息输入，实现<strong>基于 LLM 的实时选品</strong>，释放人力并提升策略敏捷性</li>
+                    <li>量价侧：深挖用户消费特征，搭建「核心供给 × 分时段 × 分场景 × 千人多面」<strong>精准补贴模型</strong>，增强摇摆用户低价感知，提升补贴效率</li>
+                  </ul>
+                </li>
+                <li><strong>DSS 信息采集能力建设</strong><span class="tl-tag data">数据</span>：为应对夏站到来及竞对竞争，推动抖音 DSS 渠道的 OCR 采集与机采链路落地，负责外包采集价格校验、覆盖性验证，确保采集链路可跑通</li>
+                <li><strong>智能交互系统搭建</strong><span class="tl-tag ai">AI</span>（利用内部 AI 工具从 0 到 1）：
+                  <ul class="sub-list">
+                    <li>销售侧补贴项目提报 + 管理员<strong>智能审批</strong>：直联销售侧与提报系统，商分同学手机端/PC 端实时审批，提升补贴灵活性与策略时效性，节省人工成本</li>
+                    <li><strong>预算管理</strong>：每日定时从内部看板抓取本月预算与消耗进度，可视化呈现，支持日频监控</li>
+                    <li><strong>效果分析</strong>：每日定时抓取实时 GTV、补贴金额、订单量，分战区监测增量撬动比变化；支持增量撬动比异动归因与预算分配策略输出</li>
+                  </ul>
+                </li>
               </ul>
-            </li>
-            <li>
-              <strong>DSS 信息采集能力建设</strong>：为应对夏站到来及竞对竞争，推动抖音 DSS 渠道的 OCR 采集与机采链路落地，负责外包采集价格校验、覆盖性验证，确保采集链路可跑通
-            </li>
-            <li>
-              <strong>智能交互系统搭建</strong>（利用内部 AI 工具从 0 到 1）：
-              <ul class="timeline-sub">
-                <li>销售侧补贴项目提报 + 管理员<strong>智能审批</strong>：直联销售侧与提报系统，商分同学手机端/PC 端实时审批，提升补贴灵活性与策略时效性，节省人工成本</li>
-                <li><strong>预算管理</strong>：每日定时从内部看板抓取本月预算与消耗进度，可视化呈现，支持日频监控</li>
-                <li><strong>效果分析</strong>：每日定时抓取实时 GTV、补贴金额、订单量，分战区监测增量撬动比变化；支持增量撬动比异动归因与预算分配策略输出</li>
-              </ul>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
 
         <!-- 百度 AI Agent -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">AI Agent 产品实习生</div>
-              <div class="timeline-company">百度</div>
+        <div class="tl-item reveal" data-index="1">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">BD</div>
+              <div class="tl-info">
+                <div class="tl-title">AI Agent 产品实习生</div>
+                <div class="tl-company">百度</div>
+              </div>
             </div>
-            <span class="timeline-period">2026.02 — 2026.04</span>
+            <div class="tl-right">
+              <span class="tl-period">2026.02 — 2026.04</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>
-              <strong>核心数据报表体系搭建</strong>：针对 <strong>Genflow</strong>（内嵌百度网盘 & 文库 App 及 PC 端的通用 Agent 产品）搭建两期核心数据报表体系；基于产品观测需求梳理并选取核心指标，明确指标定义与统计逻辑，推动跨方协作完善数据埋点与填报，解决产品无统一数据观测体系的痛点，为日常运营、问题诊断及策略优化提供数据支撑
-            </li>
-            <li>
-              <strong>Badcase 专项分析</strong>：针对 Agent 工具选择错误问题开展<strong>全链路归因分析</strong>，聚焦意图分流、规划调度、工具描述等核心环节拆解问题成因，输出针对性优化方向与解决方案，推动模型工具选择准确性提升
-            </li>
-            <li>
-              <strong>评测体系搭建与落地</strong>：为 Genflow 4.0 意图分流模块搭建专属评测体系，制定意图 Tag 分类标准，设计多维度评估方案，完成经典 case 收集与人工真值打标，建立<strong>标准化评测流程</strong>，为意图分流模型迭代与效果验证提供依据
-            </li>
-          </ul>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li><strong>核心数据报表体系搭建</strong><span class="tl-tag data">数据</span>：针对 <strong>Genflow</strong>（内嵌百度网盘 & 文库 App 及 PC 端的通用 Agent 产品）搭建两期核心数据报表体系；基于产品观测需求梳理并选取核心指标，明确指标定义与统计逻辑，推动跨方协作完善数据埋点与填报，解决产品无统一数据观测体系的痛点，为日常运营、问题诊断及策略优化提供数据支撑</li>
+                <li><strong>Badcase 专项分析</strong><span class="tl-tag ai">AI</span>：针对 Agent 工具选择错误问题开展<strong>全链路归因分析</strong>，聚焦意图分流、规划调度、工具描述等核心环节拆解问题成因，输出针对性优化方向与解决方案，推动模型工具选择准确性提升</li>
+                <li><strong>评测体系搭建与落地</strong><span class="tl-tag ai">AI</span>：为 Genflow 4.0 意图分流模块搭建专属评测体系，制定意图 Tag 分类标准，设计多维度评估方案，完成经典 case 收集与人工真值打标，建立<strong>标准化评测流程</strong>，为意图分流模型迭代与效果验证提供依据</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <!-- 百度 AI战略 -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">AI 战略实习生</div>
-              <div class="timeline-company">百度</div>
+        <div class="tl-item reveal" data-index="2">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">BD</div>
+              <div class="tl-info">
+                <div class="tl-title">AI 战略实习生</div>
+                <div class="tl-company">百度</div>
+              </div>
             </div>
-            <span class="timeline-period">2025.10 — 2026.02</span>
+            <div class="tl-right">
+              <span class="tl-period">2025.10 — 2026.02</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>
-              <strong>AI 产品研究</strong>：深度调研夸克 AI 产品，围绕其整体 AI 战略打法及商业化路径开展专项分析；长期追踪竞品核心数据表现，为业务侧决策提供参考依据
-            </li>
-            <li>
-              <strong>产品增长专项研究</strong>：聚焦 Notion、Gamma、Grammarly 等海外标杆产品，围绕增长策略、商业化路径等开展专项研究，拆解核心增长亮点，输出产品增长参考洞察
-            </li>
-            <li>
-              <strong>AI 产品中长期规划支持</strong>：深度参与网盘出海产品（Terabox）<strong>三年规划</strong>，拆解海外云盘市场分端竞争格局，结合全球 AI 赛道细分场景机会，挖掘本土化与 AI 化核心优势；聚焦云盘 AI 能力升级、场景延伸方向输出规划建议
-            </li>
-            <li>
-              <strong>业务 AI 新能力评估（GEO 方向）</strong>：围绕网盘/文库出海产品，聚焦 GEO、AI 搜索等前沿方向，结合百度搜索与内容分发能力，明确 GEO 在内容曝光、知识获取与用户留存中的应用场景及增长天花板，向业务输出落地建议
-            </li>
-            <li>
-              <strong>AI 知识产品形态洞察</strong>：研究 Gemini × NotebookLM 融合路径，分析当前主流产品在「提问式 AI」与「知识沉淀型 AI」之间的能力断层；识别市场中尚未被充分满足的用户痛点，向团队提出融合型 AI 工具产品的机会假设，为 Oreate 等产品中长期形态讨论提供输入
-            </li>
-          </ul>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li><strong>AI 产品研究</strong><span class="tl-tag strategy">战略</span>：深度调研夸克 AI 产品，围绕其整体 AI 战略打法及商业化路径开展专项分析；长期追踪竞品核心数据表现，为业务侧决策提供参考依据</li>
+                <li><strong>产品增长专项研究</strong><span class="tl-tag strategy">战略</span>：聚焦 Notion、Gamma、Grammarly 等海外标杆产品，围绕增长策略、商业化路径等开展专项研究，拆解核心增长亮点，输出产品增长参考洞察</li>
+                <li><strong>AI 产品中长期规划支持</strong><span class="tl-tag strategy">战略</span>：深度参与网盘出海产品（Terabox）<strong>三年规划</strong>，拆解海外云盘市场分端竞争格局，结合全球 AI 赛道细分场景机会，挖掘本土化与 AI 化核心优势；聚焦云盘 AI 能力升级、场景延伸方向输出规划建议</li>
+                <li><strong>业务 AI 新能力评估（GEO 方向）</strong><span class="tl-tag ai">AI</span>：围绕网盘/文库出海产品，聚焦 GEO、AI 搜索等前沿方向，结合百度搜索与内容分发能力，明确 GEO 在内容曝光、知识获取与用户留存中的应用场景及增长天花板，向业务输出落地建议</li>
+                <li><strong>AI 知识产品形态洞察</strong><span class="tl-tag ai">AI</span>：研究 Gemini × NotebookLM 融合路径，分析当前主流产品在「提问式 AI」与「知识沉淀型 AI」之间的能力断层；向团队提出融合型 AI 工具产品的机会假设，为 Oreate 等产品中长期形态讨论提供输入</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <!-- 字节跳动 -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">TikTok 直播战略实习生</div>
-              <div class="timeline-company">字节跳动</div>
+        <div class="tl-item reveal" data-index="3">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">TT</div>
+              <div class="tl-info">
+                <div class="tl-title">TikTok 直播战略实习生</div>
+                <div class="tl-company">字节跳动</div>
+              </div>
             </div>
-            <span class="timeline-period">2025.06 — 2025.09</span>
+            <div class="tl-right">
+              <span class="tl-period">2025.06 — 2025.09</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>
-              <strong>对标竞品战略研究</strong>：为支持 TikTok 直播全球扩张，主导对全球最大直播平台（YouTube）的战略研究；结合专家访谈与桌面研究，深入拆解其创作者分层、收入分成体系与商业化模式，为 TikTok 优化自身分成策略与创作者生态提供关键战略输入
-            </li>
-            <li>
-              <strong>海外直播市场规模测算</strong>：独立负责 2024 年海外直播市场规模测算；综合运用专家访谈、多源数据平台（Stream Hatchet、Data.ai）及企业年报等方式，交叉验证并整合全球超 <strong>20 家</strong>核心竞品的运营指标与收入数据，为业务部门战略规划提供核心数据支持
-            </li>
-            <li>
-              <strong>AI 赋能工作流搭建</strong>：
-              <ul class="timeline-sub">
-                <li>基于竞品动态追踪需求，利用 <strong>N8N</strong> 平台从 0 到 1 自主设计并搭建自动化信息处理工作流，实现对竞品市场新闻的全天候监控，节省团队每周约 <strong>80%</strong> 信息收集工时，情报精度达 90% 以上</li>
-                <li>基于高频专家访谈需求，参与搭建 AI 纪要生成 Prompt 工程，实现会议纪要 <strong>90% 自动化</strong>，显著提升团队一手信息处理效率</li>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li><strong>对标竞品战略研究</strong><span class="tl-tag strategy">战略</span>：为支持 TikTok 直播全球扩张，主导对全球最大直播平台（YouTube）的战略研究；结合专家访谈与桌面研究，深入拆解其创作者分层、收入分成体系与商业化模式，为 TikTok 优化自身分成策略与创作者生态提供关键战略输入</li>
+                <li><strong>海外直播市场规模测算</strong><span class="tl-tag data">数据</span>：独立负责 2024 年海外直播市场规模测算；综合运用专家访谈、多源数据平台（Stream Hatchet、Data.ai）及企业年报等方式，交叉验证并整合全球超 <strong>20 家</strong>核心竞品的运营指标与收入数据，为业务部门战略规划提供核心数据支持</li>
+                <li><strong>AI 赋能工作流搭建</strong><span class="tl-tag ai">AI</span>：
+                  <ul class="sub-list">
+                    <li>基于竞品动态追踪需求，利用 <strong>N8N</strong> 平台从 0 到 1 自主设计并搭建自动化信息处理工作流，实现对竞品市场新闻的全天候监控，节省团队每周约 <strong>80%</strong> 信息收集工时，情报精度达 90% 以上</li>
+                    <li>基于高频专家访谈需求，参与搭建 AI 纪要生成 Prompt 工程，实现会议纪要 <strong>90% 自动化</strong>，显著提升团队一手信息处理效率</li>
+                  </ul>
+                </li>
               </ul>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
 
         <!-- 中金资本 -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">投资实习生</div>
-              <div class="timeline-company">中金资本 · 文化消费基金</div>
+        <div class="tl-item reveal" data-index="4">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">CICC</div>
+              <div class="tl-info">
+                <div class="tl-title">投资实习生</div>
+                <div class="tl-company">中金资本 · 文化消费基金</div>
+              </div>
             </div>
-            <span class="timeline-period">2025.02 — 2025.05</span>
+            <div class="tl-right">
+              <span class="tl-period">2025.02 — 2025.05</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>
-              <strong>消费赛道投资机会扫描与热力图构建</strong>：主导消费行业热点追踪与分析，系统跟进每周超 <strong>10 个</strong>融资案例，从融资频率、金额、模式创新等维度构建<strong>投资热力图</strong>，识别出保健品、宠物食品等高景气赛道，形成动态项目 Shortlist
-            </li>
-            <li>
-              <strong>核心消费项目分析</strong>：深度参与多个核心消费项目投前研究，与创始人进行多轮访谈；系统梳理商业模式、产品矩阵及供应链，提炼各项目核心护城河（技术壁垒、品牌优势等）
-            </li>
-            <li>
-              <strong>行业研究与报告撰写</strong>：针对香水、植物提取、美甲机器人等细分赛道开展独立研究，完成项目 <strong>One-pager</strong>，为团队投资决策提供关键支持
-            </li>
-          </ul>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li><strong>消费赛道投资机会扫描与热力图构建</strong><span class="tl-tag data">数据</span>：主导消费行业热点追踪与分析，系统跟进每周超 <strong>10 个</strong>融资案例，从融资频率、金额、模式创新等维度构建<strong>投资热力图</strong>，识别出保健品、宠物食品等高景气赛道，形成动态项目 Shortlist</li>
+                <li><strong>核心消费项目分析</strong>：深度参与多个核心消费项目投前研究，与创始人进行多轮访谈；系统梳理商业模式、产品矩阵及供应链，提炼各项目核心护城河（技术壁垒、品牌优势等）</li>
+                <li><strong>行业研究与报告撰写</strong>：针对香水、植物提取、美甲机器人等细分赛道开展独立研究，完成项目 <strong>One-pager</strong>，为团队投资决策提供关键支持</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <!-- 宸睿资本 -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">FA 消费组实习生</div>
-              <div class="timeline-company">宸睿资本</div>
+        <div class="tl-item reveal" data-index="5">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">CR</div>
+              <div class="tl-info">
+                <div class="tl-title">FA 消费组实习生</div>
+                <div class="tl-company">宸睿资本</div>
+              </div>
             </div>
-            <span class="timeline-period">2024.09 — 2025.01</span>
+            <div class="tl-right">
+              <span class="tl-period">2024.09 — 2025.01</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>
-              <strong>大健康消费赛道深度行研报告</strong>：独立主导并撰写<strong>万字行业报告</strong>；通过拆解头部上市公司发展历程与经营模式，提炼赛道核心玩家画像与关键成功要素
-            </li>
-            <li>
-              <strong>一级市场投资标的扫描与 Mapping</strong>：基于行研报告洞见，系统性扫描并 Mapping 大健康消费领域一级市场潜在标的超 <strong>500 家</strong>，为团队项目筛选和渠道拓展提供精准漏斗支持
-            </li>
-            <li>
-              <strong>项目支持与建模分析</strong>：独立负责某零售咖啡项目商业计划书（BP）撰写；搭建市场规模预测模型，完成华东地区鲜品预制菜市场规模量化预测
-            </li>
-          </ul>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li><strong>大健康消费赛道深度行研报告</strong>：独立主导并撰写<strong>万字行业报告</strong>；通过拆解头部上市公司发展历程与经营模式，提炼赛道核心玩家画像与关键成功要素</li>
+                <li><strong>一级市场投资标的扫描与 Mapping</strong>：基于行研报告洞见，系统性扫描并 Mapping 大健康消费领域一级市场潜在标的超 <strong>500 家</strong>，为团队项目筛选和渠道拓展提供精准漏斗支持</li>
+                <li><strong>项目支持与建模分析</strong>：独立负责某零售咖啡项目商业计划书（BP）撰写；搭建市场规模预测模型，完成华东地区鲜品预制菜市场规模量化预测</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <!-- 国盛证券 -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">研究所军工组实习生</div>
-              <div class="timeline-company">国盛证券（新财富第二团队）</div>
+        <div class="tl-item reveal" data-index="6">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">GS</div>
+              <div class="tl-info">
+                <div class="tl-title">研究所军工组实习生</div>
+                <div class="tl-company">国盛证券（新财富第二团队）</div>
+              </div>
             </div>
-            <span class="timeline-period">2024.02 — 2024.08</span>
+            <div class="tl-right">
+              <span class="tl-period">2024.02 — 2024.08</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>
-              <strong>「低空经济」产业深度报告</strong>：系统梳理超 <strong>30 篇</strong>中英文文献，完成产业链图谱、竞争格局与发展趋势综述；独立负责「基础设施」核心章节，通过市场规模预测模型量化测算出<strong>近万亿级</strong>潜在市场空间
-            </li>
-            <li>
-              <strong>「卫星互联网」前沿技术专题研究</strong>：独立完成「手机直连卫星」核心技术章节；解析超 <strong>20 篇</strong>技术文献，清晰阐述不同技术路径的演进、核心壁垒与商业化前景，研究成果被报告完整采纳
-            </li>
-            <li>
-              <strong>行业前沿动态追踪</strong>：利用 WIND 等工具对行业动态、市场数据及公司公告进行高频监控与筛选，定期产出资讯简报，支持研究员进行行业趋势跟踪与分析
-            </li>
-          </ul>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li><strong>「低空经济」产业深度报告</strong>：系统梳理超 <strong>30 篇</strong>中英文文献，完成产业链图谱、竞争格局与发展趋势综述；独立负责「基础设施」核心章节，通过市场规模预测模型量化测算出<strong>近万亿级</strong>潜在市场空间</li>
+                <li><strong>「卫星互联网」前沿技术专题研究</strong>：独立完成「手机直连卫星」核心技术章节；解析超 <strong>20 篇</strong>技术文献，清晰阐述不同技术路径的演进、核心壁垒与商业化前景，研究成果被报告完整采纳</li>
+                <li><strong>行业前沿动态追踪</strong>：利用 WIND 等工具对行业动态、市场数据及公司公告进行高频监控与筛选，定期产出资讯简报，支持研究员进行行业趋势跟踪与分析</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- ===== 项目与竞赛经历 ===== -->
+  <div class="divider"></div>
+
+  <!-- ── 项目与竞赛 ── -->
   <section id="projects">
     <div class="container">
-      <div class="section-header reveal"><h2>Projects & Competitions</h2><p>学术研究与竞赛实战</p></div>
+      <div class="section-header reveal">
+        <div class="section-label">Projects & Competitions</div>
+        <div class="section-title">学术研究与竞赛实战</div>
+      </div>
       <div class="timeline">
 
-        <!-- 创新创业大赛 -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">中国大学生创新创业大赛——国家级立项</div>
-              <div class="timeline-company">学术论文 · 一作</div>
+        <div class="tl-item reveal">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">论文</div>
+              <div class="tl-info">
+                <div class="tl-title">中国大学生创新创业大赛——国家级立项</div>
+                <div class="tl-company">学术论文 · 一作</div>
+              </div>
             </div>
-            <span class="timeline-period">2023.08 — 2024.06</span>
+            <div class="tl-right">
+              <span class="tl-period">2023.08 — 2024.06</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>
-              论文：<strong>《加入 RCEP 对中国制造业的全球价值链地位和参与度的影响——基于 GTAP 的模拟分析》</strong>（一作）
-            </li>
-            <li>
-              研究 RCEP 通过降低关税和非关税贸易壁垒对中国制造业全球价值链地位和参与度的影响；使用 <strong>GTAP 模型</strong>进行经济冲击模拟，通过 KWW 方法分解量化制造业价值链参与度和地位变化
-            </li>
-            <li>
-              设计五种逐步降低壁垒的情景模拟，全面评估中国加入 RCEP 后对制造业的多种可能影响
-            </li>
-            <li>
-              成果：获<strong>2023 年全国高校商业经营挑战赛国际贸易竞赛全国二等奖</strong>
-            </li>
-          </ul>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li>论文：<strong>《加入 RCEP 对中国制造业的全球价值链地位和参与度的影响——基于 GTAP 的模拟分析》</strong>（一作）</li>
+                <li>研究 RCEP 通过降低关税和非关税贸易壁垒对中国制造业全球价值链地位和参与度的影响；使用 <strong>GTAP 模型</strong>进行经济冲击模拟，通过 KWW 方法分解量化制造业价值链参与度和地位变化</li>
+                <li>设计五种逐步降低壁垒的情景模拟，全面评估中国加入 RCEP 后对制造业的多种可能影响</li>
+                <li>成果：获 <strong>2023 年全国高校商业经营挑战赛国际贸易竞赛全国二等奖</strong></li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <!-- 北大武大联合项目 -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">北大—武大联合营商环境项目组（DBS）</div>
-              <div class="timeline-company">北京大学开放研究数据平台</div>
+        <div class="tl-item reveal">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">DBS</div>
+              <div class="tl-info">
+                <div class="tl-title">北大—武大联合营商环境项目组（DBS）</div>
+                <div class="tl-company">北京大学开放研究数据平台</div>
+              </div>
             </div>
-            <span class="timeline-period">2022.11 — 2023.08</span>
+            <div class="tl-right">
+              <span class="tl-period">2022.11 — 2023.08</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>
-              领导团队收集整理政府廉洁度指标数据，分析城市营商环境；查阅 2018–2022 年中国城市政商关系评价报告，整理 2017–2021 年各城市政府廉洁度指数，完成各城市营商环境得分计算
-            </li>
-            <li>
-              撰写山东省各城市营商环境报告及 2022 年河南省省份营商环境报告；完成<strong>2023 中国城市营商环境研究报告</strong>
-            </li>
-            <li>
-              参与 <strong>2023 中国城市营商环境数据库建立</strong>，已在北京大学开放研究数据平台中国调查数据资料库正式发布
-            </li>
-          </ul>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li>领导团队收集整理政府廉洁度指标数据，分析城市营商环境；查阅 2018–2022 年中国城市政商关系评价报告，整理 2017–2021 年各城市政府廉洁度指数，完成各城市营商环境得分计算</li>
+                <li>撰写山东省各城市营商环境报告及 2022 年河南省省份营商环境报告；完成 <strong>2023 中国城市营商环境研究报告</strong></li>
+                <li>参与 <strong>2023 中国城市营商环境数据库建立</strong>，已在北京大学开放研究数据平台中国调查数据资料库正式发布</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <!-- 竞赛汇总 -->
-        <div class="timeline-item reveal">
-          <div class="timeline-meta">
-            <div>
-              <div class="timeline-title">竞赛荣誉</div>
-              <div class="timeline-company">全国高校商业精英挑战赛 · 能源经济学术创意大赛</div>
+        <div class="tl-item reveal">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">🏆</div>
+              <div class="tl-info">
+                <div class="tl-title">竞赛荣誉</div>
+                <div class="tl-company">全国高校商业精英挑战赛 · 能源经济学术创意大赛</div>
+              </div>
             </div>
-            <span class="timeline-period">2023.11</span>
+            <div class="tl-right">
+              <span class="tl-period">2023.11</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
           </div>
-          <ul>
-            <li>2023 年全国高校商业精英挑战赛创新创业竞赛「精创教育杯」（流通业经营模拟赛道）—— <strong>全国一等奖</strong></li>
-            <li>2023 年全国高校商业精英挑战赛创新创业竞赛「云泽杯」营销模拟决策赛道 —— <strong>全国一等奖</strong></li>
-            <li>2023 年全国高校商业精英挑战赛国际贸易竞赛（国际贸易与商务专题赛道）—— <strong>全国二等奖</strong></li>
-            <li>第十届全国大学生能源经济学术创意大赛武汉大学校赛 —— 论文：《绿色信贷政策对企业环保投资水平的影响——基于 DID 模型的实证分析》</li>
-          </ul>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li>2023 年全国高校商业精英挑战赛「精创教育杯」流通业经营模拟赛道 —— <strong>全国一等奖</strong></li>
+                <li>2023 年全国高校商业精英挑战赛「云泽杯」营销模拟决策赛道 —— <strong>全国一等奖</strong></li>
+                <li>2023 年全国高校商业精英挑战赛国际贸易竞赛（国际贸易与商务专题赛道）—— <strong>全国二等奖</strong></li>
+                <li>第十届全国大学生能源经济学术创意大赛武汉大学校赛 —— 论文：《绿色信贷政策对企业环保投资水平的影响——基于 DID 模型的实证分析》</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- ===== 教育背景 ===== -->
+  <div class="divider"></div>
+
+  <!-- ── 教育背景 ── -->
   <section id="education">
     <div class="container">
-      <div class="section-header reveal"><h2>Education</h2><p>珞珈山下，六年成长</p></div>
+      <div class="section-header reveal">
+        <div class="section-label">Education</div>
+        <div class="section-title">珞珈山下，六年成长</div>
+      </div>
       <div class="edu-grid">
         <div class="edu-card reveal">
+          <div class="edu-card-glow"></div>
           <div class="edu-period">2025.09 — 2027.06</div>
           <div class="edu-title">金融 硕士</div>
           <div class="edu-detail">武汉大学</div>
           <div class="edu-highlight">保研直升</div>
         </div>
         <div class="edu-card reveal">
+          <div class="edu-card-glow"></div>
           <div class="edu-period">2021.09 — 2025.06</div>
           <div class="edu-title">国际金融实验班 本科</div>
           <div class="edu-detail">武汉大学 · GPA 3.7/4.0 · 专业前 20% · 保研</div>
           <div class="edu-highlight">荣誉：乙等奖学金（专业前15%）· 三好学生 · 院级优秀共青团干部 · 院级社会活动积极分子</div>
-          <div class="edu-courses">核心课程：概率论与数理统计(96) · 固定收入证券(95) · Python 程序设计(95) · 国际经济学(93) · 国际金融学(92) · 时间序列分析(90) · 金融经济学(90) · 证券投资分析(91) · 金融市场学与实验(91) · 统计学(90)</div>
+          <div class="edu-courses">核心课程：概率论与数理统计(96) · 固定收入证券(95) · Python 程序设计(95) · 国际经济学(93) · 国际金融学(92) · 证券投资分析(91) · 金融市场学与实验(91) · 时间序列分析(90) · 金融经济学(90) · 统计学(90)</div>
         </div>
       </div>
 
       <div class="awards-grid" style="margin-top:2.5rem;">
         <div class="award-item reveal">
-          <div class="emoji">🏆</div>
-          <div class="info">
-            <h4>全国高校商业精英挑战赛「精创教育杯」流通业经营模拟赛道</h4>
-            <p>全国一等奖（2023）</p>
-          </div>
+          <div class="aw-emoji">🏆</div>
+          <div class="info"><h4>全国高校商业精英挑战赛「精创教育杯」流通业经营模拟赛道</h4><p>全国一等奖（2023）</p></div>
         </div>
         <div class="award-item reveal">
-          <div class="emoji">🏆</div>
-          <div class="info">
-            <h4>全国高校商业精英挑战赛「云泽杯」营销模拟决策赛道</h4>
-            <p>全国一等奖（2023）</p>
-          </div>
+          <div class="aw-emoji">🏆</div>
+          <div class="info"><h4>全国高校商业精英挑战赛「云泽杯」营销模拟决策赛道</h4><p>全国一等奖（2023）</p></div>
         </div>
         <div class="award-item reveal">
-          <div class="emoji">🥈</div>
-          <div class="info">
-            <h4>全国高校商业精英挑战赛 国际贸易竞赛</h4>
-            <p>全国二等奖（2023）</p>
-          </div>
+          <div class="aw-emoji">🥈</div>
+          <div class="info"><h4>全国高校商业精英挑战赛 国际贸易竞赛</h4><p>全国二等奖（2023）</p></div>
         </div>
         <div class="award-item reveal">
-          <div class="emoji">🎓</div>
-          <div class="info">
-            <h4>武汉大学乙等奖学金（专业前15%）· 三好学生</h4>
-            <p>院级优秀共青团干部 · 院级社会活动积极分子</p>
-          </div>
+          <div class="aw-emoji">🎓</div>
+          <div class="info"><h4>武汉大学乙等奖学金（专业前15%）· 三好学生</h4><p>院级优秀共青团干部 · 院级社会活动积极分子</p></div>
         </div>
       </div>
 
-      <!-- 校园经历 -->
       <div style="margin-top:2.5rem;">
-        <div style="font-size:0.82rem;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:1.25rem;">Campus Activities</div>
+        <div class="section-label reveal" style="margin-bottom:1.25rem;">Campus Activities</div>
         <div class="awards-grid">
           <div class="award-item reveal">
-            <div class="emoji">🏛️</div>
+            <div class="aw-emoji">🏛️</div>
             <div class="info">
               <h4>武汉大学经济与管理学院共青团委员会</h4>
               <p>新闻中心 & 视觉中心副主任；学生成长中心副主任（2022.09—2024.06）· 部门荣获 2022-2023 年度武汉大学「优秀新闻宣传」集体称号</p>
             </div>
           </div>
           <div class="award-item reveal">
-            <div class="emoji">❤️</div>
+            <div class="aw-emoji">❤️</div>
             <div class="info">
               <h4>武汉大学「爱心之旅」支教团队</h4>
               <p>为河南安阳小朋友提供为期两个月的支教服务（2022.06—2022.08）· 获先进个人称号 · 项目获「武汉大学 2022 年学生社会实践活动优秀成果」三等奖</p>
@@ -585,10 +722,15 @@
     </div>
   </section>
 
-  <!-- ===== 技能 ===== -->
+  <div class="divider"></div>
+
+  <!-- ── 技能 ── -->
   <section id="skills">
     <div class="container">
-      <div class="section-header reveal"><h2>Skills</h2><p>产品 × 数据 × AI 的交叉能力</p></div>
+      <div class="section-header reveal">
+        <div class="section-label">Skills</div>
+        <div class="section-title">产品 × 数据 × AI 的交叉能力</div>
+      </div>
       <div class="skills-grid">
         <div class="skill-card reveal">
           <h4>🤖 AI & Product</h4>
@@ -630,25 +772,33 @@
     </div>
   </section>
 
-  <!-- ===== 关于我 ===== -->
+  <div class="divider"></div>
+
+  <!-- ── 关于我 ── -->
   <section id="about">
     <div class="container">
-      <div class="section-header reveal"><h2>About</h2><p>不只是产品经理</p></div>
+      <div class="section-header reveal">
+        <div class="section-label">About</div>
+        <div class="section-title">不只是产品经理</div>
+      </div>
       <div class="about-grid">
-        <div class="about-item reveal"><div class="emoji">🎙️</div><div class="label">播客</div><div class="value">百里挑一</div></div>
-        <div class="about-item reveal"><div class="emoji">💃</div><div class="label">舞蹈</div><div class="value">民族舞十级</div></div>
-        <div class="about-item reveal"><div class="emoji">📚</div><div class="label">阅读</div><div class="value">年均 100+</div></div>
-        <div class="about-item reveal"><div class="emoji">📖</div><div class="label">小红书</div><div class="value">博主探索中</div></div>
-        <div class="about-item reveal"><div class="emoji">✏️</div><div class="label">公众号</div><div class="value">百里回声</div></div>
-        <div class="about-item reveal"><div class="emoji">🗣️</div><div class="label">普通话</div><div class="value">一级乙等</div></div>
+        <div class="about-item reveal"><div class="about-emoji">🎙️</div><div class="about-label">播客</div><div class="about-value">百里挑一</div></div>
+        <div class="about-item reveal"><div class="about-emoji">💃</div><div class="about-label">舞蹈</div><div class="about-value">民族舞十级</div></div>
+        <div class="about-item reveal"><div class="about-emoji">📚</div><div class="about-label">阅读</div><div class="about-value">年均 100+</div></div>
+        <div class="about-item reveal"><div class="about-emoji">📖</div><div class="about-label">小红书</div><div class="about-value">博主探索中</div></div>
+        <div class="about-item reveal"><div class="about-emoji">✏️</div><div class="about-label">公众号</div><div class="about-value">百里回声</div></div>
+        <div class="about-item reveal"><div class="about-emoji">🗣️</div><div class="about-label">普通话</div><div class="about-value">一级乙等</div></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 联系 ===== -->
+  <!-- ── 联系 ── -->
   <section id="contact" class="contact-section">
     <div class="container">
-      <div class="section-header reveal" style="text-align:center;"><h2>Contact</h2><p>期待与你交流</p></div>
+      <div class="section-header reveal" style="text-align:center;">
+        <div class="section-label" style="justify-content:center;">Contact</div>
+        <div class="section-title">期待与你交流</div>
+      </div>
       <div class="contact-btns reveal">
         <a href="mailto:liyiming.1031@gmail.com" class="btn btn-primary">📧 发送邮件</a>
         <a href="https://namecard.xiaoyuzhoufm.com/ypl9a" class="btn btn-ghost" target="_blank">🎙️ 播客名片</a>
@@ -658,50 +808,149 @@
     </div>
   </section>
 
-  <footer><p>&copy; 2026 Yiming Li &middot; Built with ☕ and curiosity</p></footer>
+  <footer>
+    <p>&copy; 2026 <span>Elaine Li · 李翊铭</span> &nbsp;·&nbsp; Built with ☕ and curiosity</p>
+  </footer>
 
   <script>
-    const glow=document.querySelector('.cursor-glow');
-    if(window.innerWidth>768){document.addEventListener('mousemove',e=>{glow.style.transform=`translate(${e.clientX-200}px,${e.clientY-200}px)`});}
+    // ── Custom cursor ──
+    const cur = document.getElementById('cur');
+    const curRing = document.getElementById('curRing');
+    const glowEl = document.getElementById('glow');
+    let mx = -999, my = -999;
+    let rx = -999, ry = -999;
 
-    const progress=document.querySelector('.scroll-progress');
-    const nav2=document.querySelector('nav');
-    window.addEventListener('scroll',()=>{
-      const h=document.documentElement.scrollHeight-window.innerHeight;
-      progress.style.width=(window.scrollY/h*100)+'%';
-      nav2.classList.toggle('scrolled',window.scrollY>10);
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+        glowEl.style.transform = `translate(${mx - 250}px, ${my - 250}px)`;
+      });
+      // Ring lags behind
+      (function lerp() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        curRing.style.left = rx + 'px'; curRing.style.top = ry + 'px';
+        requestAnimationFrame(lerp);
+      })();
+    }
+
+    // ── Scroll progress + nav ──
+    const prog = document.getElementById('scrollProg');
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      prog.style.width = (window.scrollY / h * 100) + '%';
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // ── Active nav link ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('#navLinks a');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const link = document.querySelector(`#navLinks a[href="#${e.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { threshold: 0.4 });
+    sections.forEach(s => io.observe(s));
+
+    // ── Hero title typewriter ──
+    const titleEl = document.getElementById('heroTitle');
+    const t1 = '你好，我是'; const t2 = 'Elaine';
+    let html = '', idx = 0;
+    for (const ch of t1) { html += `<span class="char" style="animation-delay:${0.5 + idx * 0.05}s">${ch}</span>`; idx++; }
+    html += '<br><span class="accent">';
+    for (const ch of t2) { html += `<span class="char" style="animation-delay:${0.5 + idx * 0.05}s">${ch}</span>`; idx++; }
+    html += '</span>';
+    titleEl.innerHTML = html;
+
+    setTimeout(() => {
+      document.querySelectorAll('.hero h1 .char').forEach(c => c.classList.add('animate'));
+    }, 100);
+
+    // ── Hero card 3D tilt ──
+    const card = document.getElementById('heroCard');
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 12}deg) scale(1.02)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = 'rotateY(0) rotateX(0) scale(1)'; });
+
+    // ── Education card glow follow mouse ──
+    document.querySelectorAll('.edu-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const glow = card.querySelector('.edu-card-glow');
+        if (glow) {
+          glow.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+          glow.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+        }
+      });
     });
 
-    const titleEl=document.getElementById('hero-title');
-    const t1='你好，我是';const t2='Yiming';
-    let html='',idx=0;
-    for(const ch of t1){html+=`<span class="char" style="animation-delay:${0.6+idx*0.04}s">${ch}</span>`;idx++;}
-    html+='<br><span class="accent">';
-    for(const ch of t2){html+=`<span class="char" style="animation-delay:${0.6+idx*0.04}s">${ch}</span>`;idx++;}
-    html+='</span>';titleEl.innerHTML=html;
-
-    setTimeout(()=>{
-      document.querySelector('.hero-label').classList.add('animate');
-      document.querySelectorAll('.hero h1 .char').forEach(c=>c.classList.add('animate'));
-      document.querySelector('.hero .desc').classList.add('animate');
-      document.querySelector('.hero-btns').classList.add('animate');
-      document.querySelector('.hero-stats').classList.add('animate');
-      document.getElementById('heroCard').classList.add('animate');
-    },100);
-
-    const card=document.getElementById('heroCard');
-    card.addEventListener('mousemove',e=>{
-      const r=card.getBoundingClientRect();
-      const x=(e.clientX-r.left)/r.width-0.5;
-      const y=(e.clientY-r.top)/r.height-0.5;
-      card.style.transform=`rotateY(${x*10}deg) rotateX(${-y*10}deg)`;
+    // ── Timeline accordion ──
+    document.querySelectorAll('.tl-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const item = header.closest('.tl-item');
+        const isOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.tl-item.open').forEach(i => i.classList.remove('open'));
+        // Toggle clicked
+        if (!isOpen) item.classList.add('open');
+      });
     });
-    card.addEventListener('mouseleave',()=>{card.style.transform='rotateY(0) rotateX(0)';});
+    // Open first by default
+    setTimeout(() => {
+      const first = document.querySelector('.tl-item');
+      if (first) first.classList.add('open');
+    }, 800);
 
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
-    },{threshold:0.1});
-    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    // ── Counter animation ──
+    function animateCounters() {
+      document.querySelectorAll('[data-target]').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        let current = 0;
+        const step = target / 40;
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = Math.floor(current) + (current >= target ? suffix : '');
+          if (current >= target) clearInterval(timer);
+        }, 30);
+      });
+    }
+    const heroObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { animateCounters(); heroObs.disconnect(); }
+    }, { threshold: 0.5 });
+    const statsEl = document.querySelector('.hero-stats');
+    if (statsEl) heroObs.observe(statsEl);
+
+    // ── Reveal on scroll ──
+    const revObs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), 60);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal, .reveal-left').forEach(el => revObs.observe(el));
+
+    // ── Stagger reveal for timeline items ──
+    const tlObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const idx = parseInt(e.target.dataset.index || 0);
+          setTimeout(() => e.target.classList.add('visible'), idx * 80);
+        }
+      });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.tl-item[data-index]').forEach(el => tlObs.observe(el));
   </script>
 </body>
 </html>
