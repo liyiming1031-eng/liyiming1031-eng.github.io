@@ -223,6 +223,24 @@
     .tl-chapter-years { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-tertiary); letter-spacing: 0.5px; }
     .tl-chapter-note { margin: 0.7rem 0 1.1rem; font-size: 0.86rem; color: var(--text-secondary); line-height: 1.8; max-width: 720px; padding-left: 1rem; border-left: 2px dashed var(--accent-light); }
     .tl-chapter-note strong { color: var(--text); font-weight: 600; }
+    /* Collapsible chapter */
+    .tl-chapter.collapsible { cursor: pointer; border: 1px dashed var(--border); border-radius: var(--radius); padding: 1.15rem 1.3rem; background: var(--bg-card); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: var(--shadow-md); }
+    .tl-chapter.collapsible:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .tl-chapter.collapsible .tl-chapter-note { margin-bottom: 0; }
+    .tl-chapter-toggle { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; margin-top: 0.9rem; padding-top: 0.75rem; border-top: 1px dashed var(--border); }
+    .tl-chapter-hint { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.5px; color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; }
+    .tl-chapter-hint .cnt { color: var(--text-tertiary); }
+    .tl-chapter-arrow { width: 22px; height: 22px; border-radius: 50%; background: var(--bg-alt); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0; }
+    .tl-chapter-arrow svg { width: 11px; height: 11px; stroke: var(--accent); transition: stroke 0.2s; }
+    .tl-chapter.open .tl-chapter-arrow { background: var(--accent); border-color: var(--accent); transform: rotate(180deg); }
+    .tl-chapter.open .tl-chapter-arrow svg { stroke: #fff; }
+    .tl-chapter.open .tl-chapter-hint .open-label { display: none; }
+    .tl-chapter-hint .close-label { display: none; }
+    .tl-chapter.open .tl-chapter-hint .close-label { display: inline; }
+    /* Collapsed items belonging to a chapter */
+    .tl-item.chapter-child { display: none; }
+    .tl-item.chapter-child.chapter-visible { display: block; animation: chapterFade 0.5s cubic-bezier(0.4,0,0.2,1) both; }
+    @keyframes chapterFade { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ── Education ── */
     .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
@@ -525,117 +543,112 @@
         <div class="section-label">Case Files · Experience</div>
         <div class="section-title">办案记录 · 一条从金融查到 AI 产品的线索</div>
       </div>
-      <p class="phil-intro reveal">这不是七段互不相干的实习，而是同一桩案子的三卷档案。倒着翻——从我此刻正在做的 AI 产品，一路追回最初那个在券商研究所啃财报的起点。每一卷，都是上一卷埋下的伏笔。</p>
+      <p class="phil-intro reveal">这不是七段互不相干的实习，而是同一桩案子的三卷档案。从头翻起——从最初那个在券商研究所啃财报的起点，一路查到我此刻正在做的 AI 产品。每一卷，都为下一卷埋下伏笔。</p>
       <div class="timeline">
 
-        <!-- ═══ 卷三：产品落地 ═══ -->
-        <div class="tl-chapter reveal">
+        <!-- ═══ 卷一：金融打底 ═══ -->
+        <div class="tl-chapter collapsible reveal">
           <div class="tl-chapter-head">
-            <span class="tl-chapter-no">卷三 · Chapter Ⅲ</span>
-            <span class="tl-chapter-title">产品落地 · 下场做 AI</span>
-            <span class="tl-chapter-years">2025.10 — 至今</span>
+            <span class="tl-chapter-no">卷一 · Chapter Ⅰ</span>
+            <span class="tl-chapter-title">金融打底 · 故事的起点</span>
+            <span class="tl-chapter-years">2024.02 — 2025.05</span>
           </div>
-          <p class="tl-chapter-note">案情推进到这里，我不再只是<strong>旁观 AI</strong>，而是亲手<strong>把 AI 变成产品</strong>：从搭数据观测体系、做评测与 Badcase 归因，到用内部 AI 工具从 0 到 1 搭出可运转的智能系统。前两卷积累的行业判断力和战略视野，在这里第一次落地成真正的功能。</p>
+          <p class="tl-chapter-note">一切从这里开始。在国盛证券啃低空经济、卫星互联网的硬核研究，在宸睿、中金扫描一级市场消费标的——练的是同一件事：<strong>面对一个完全陌生的领域，如何从零把它研究透、量化出规模、看懂商业模式与护城河</strong>。这套「从零建立认知」的本事，后来成了我做产品判断的底层地基。</p>
+          <div class="tl-chapter-toggle">
+            <span class="tl-chapter-hint"><span class="open-label">展开本卷案卷</span><span class="close-label">收起本卷案卷</span><span class="cnt">· 3 段</span></span>
+            <span class="tl-chapter-arrow"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M3 4.5l3 3 3-3"/></svg></span>
+          </div>
         </div>
 
-        <!-- 美团 -->
-        <div class="tl-item reveal" data-index="0">
+        <!-- 国盛证券 -->
+        <div class="tl-item reveal" data-index="6">
           <div class="tl-header">
             <div class="tl-left">
-              <div class="tl-company-badge">MT</div>
+              <div class="tl-company-badge">GS</div>
               <div class="tl-info">
-                <div class="tl-title">商分实习生</div>
-                <div class="tl-company">美团</div>
+                <div class="tl-title">研究所军工组实习生</div>
+                <div class="tl-company">国盛证券（新财富第二团队）</div>
               </div>
             </div>
             <div class="tl-right">
-              <span class="tl-period">2026.05 — 2026.08</span>
+              <span class="tl-period">2024.02 — 2024.08</span>
               <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
             </div>
           </div>
           <div class="tl-body">
             <div class="tl-body-inner">
               <ul>
-                <li><strong>BML 补贴提效项目</strong><span class="tl-tag ai">AI</span>：面对白热化市场竞争，聚焦补贴策略全面升级——
-                  <ul class="sub-list">
-                    <li>选品侧：引入 AI 大模型能力，结合策略信息输入，实现<strong>基于 LLM 的实时选品</strong>，释放人力并提升策略敏捷性</li>
-                    <li>量价侧：深挖用户消费特征，搭建「核心供给 × 分时段 × 分场景 × 千人多面」<strong>精准补贴模型</strong>，增强摇摆用户低价感知，提升补贴效率</li>
-                  </ul>
-                </li>
-                <li><strong>DSS 信息采集能力建设</strong><span class="tl-tag data">数据</span>：为应对夏站到来及竞对竞争，推动抖音 DSS 渠道的 OCR 采集与机采链路落地，负责外包采集价格校验、覆盖性验证，确保采集链路可跑通</li>
-                <li><strong>智能交互系统搭建</strong><span class="tl-tag ai">AI</span>（利用内部 AI 工具从 0 到 1）：
-                  <ul class="sub-list">
-                    <li>销售侧补贴项目提报 + 管理员<strong>智能审批</strong>：直联销售侧与提报系统，商分同学手机端/PC 端实时审批，提升补贴灵活性与策略时效性，节省人工成本</li>
-                    <li><strong>预算管理</strong>：每日定时从内部看板抓取本月预算与消耗进度，可视化呈现，支持日频监控</li>
-                    <li><strong>效果分析</strong>：每日定时抓取实时 GTV、补贴金额、订单量，分战区监测增量撬动比变化；支持增量撬动比异动归因与预算分配策略输出</li>
-                  </ul>
-                </li>
+                <li><strong>「低空经济」产业深度报告</strong>：系统梳理超 <strong>30 篇</strong>中英文文献，完成产业链图谱、竞争格局与发展趋势综述；独立负责「基础设施」核心章节，通过市场规模预测模型量化测算出<strong>近万亿级</strong>潜在市场空间</li>
+                <li><strong>「卫星互联网」前沿技术专题研究</strong>：独立完成「手机直连卫星」核心技术章节；解析超 <strong>20 篇</strong>技术文献，清晰阐述不同技术路径的演进、核心壁垒与商业化前景，研究成果被报告完整采纳</li>
+                <li><strong>行业前沿动态追踪</strong>：利用 WIND 等工具对行业动态、市场数据及公司公告进行高频监控与筛选，定期产出资讯简报，支持研究员进行行业趋势跟踪与分析</li>
               </ul>
             </div>
           </div>
         </div>
 
-        <!-- 百度 AI Agent -->
+        <!-- 宸睿资本 -->
         <div class="tl-item reveal" data-index="1">
           <div class="tl-header">
             <div class="tl-left">
-              <div class="tl-company-badge">BD</div>
+              <div class="tl-company-badge">CR</div>
               <div class="tl-info">
-                <div class="tl-title">AI Agent 产品实习生</div>
-                <div class="tl-company">百度</div>
+                <div class="tl-title">FA 消费组实习生</div>
+                <div class="tl-company">宸睿资本</div>
               </div>
             </div>
             <div class="tl-right">
-              <span class="tl-period">2026.02 — 2026.04</span>
+              <span class="tl-period">2024.09 — 2025.01</span>
               <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
             </div>
           </div>
           <div class="tl-body">
             <div class="tl-body-inner">
               <ul>
-                <li><strong>核心数据报表体系搭建</strong><span class="tl-tag data">数据</span>：针对 <strong>Genflow</strong>（内嵌百度网盘 & 文库 App 及 PC 端的通用 Agent 产品）搭建两期核心数据报表体系；基于产品观测需求梳理并选取核心指标，明确指标定义与统计逻辑，推动跨方协作完善数据埋点与填报，解决产品无统一数据观测体系的痛点，为日常运营、问题诊断及策略优化提供数据支撑</li>
-                <li><strong>Badcase 专项分析</strong><span class="tl-tag ai">AI</span>：针对 Agent 工具选择错误问题开展<strong>全链路归因分析</strong>，聚焦意图分流、规划调度、工具描述等核心环节拆解问题成因，输出针对性优化方向与解决方案，推动模型工具选择准确性提升</li>
-                <li><strong>评测体系搭建与落地</strong><span class="tl-tag ai">AI</span>：为 Genflow 4.0 意图分流模块搭建专属评测体系，制定意图 Tag 分类标准，设计多维度评估方案，完成经典 case 收集与人工真值打标，建立<strong>标准化评测流程</strong>，为意图分流模型迭代与效果验证提供依据</li>
+                <li><strong>大健康消费赛道深度行研报告</strong>：独立主导并撰写<strong>万字行业报告</strong>；通过拆解头部上市公司发展历程与经营模式，提炼赛道核心玩家画像与关键成功要素</li>
+                <li><strong>一级市场投资标的扫描与 Mapping</strong>：基于行研报告洞见，系统性扫描并 Mapping 大健康消费领域一级市场潜在标的超 <strong>500 家</strong>，为团队项目筛选和渠道拓展提供精准漏斗支持</li>
+                <li><strong>项目支持与建模分析</strong>：独立负责某零售咖啡项目商业计划书（BP）撰写；搭建市场规模预测模型，完成华东地区鲜品预制菜市场规模量化预测</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 中金资本 -->
+        <div class="tl-item reveal" data-index="2">
+          <div class="tl-header">
+            <div class="tl-left">
+              <div class="tl-company-badge">CICC</div>
+              <div class="tl-info">
+                <div class="tl-title">投资实习生</div>
+                <div class="tl-company">中金资本 · 文化消费基金</div>
+              </div>
+            </div>
+            <div class="tl-right">
+              <span class="tl-period">2025.02 — 2025.05</span>
+              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-body-inner">
+              <ul>
+                <li><strong>消费赛道投资机会扫描与热力图构建</strong><span class="tl-tag data">数据</span>：主导消费行业热点追踪与分析，系统跟进每周超 <strong>10 个</strong>融资案例，从融资频率、金额、模式创新等维度构建<strong>投资热力图</strong>，识别出保健品、宠物食品等高景气赛道，形成动态项目 Shortlist</li>
+                <li><strong>核心消费项目分析</strong>：深度参与多个核心消费项目投前研究，与创始人进行多轮访谈；系统梳理商业模式、产品矩阵及供应链，提炼各项目核心护城河（技术壁垒、品牌优势等）</li>
+                <li><strong>行业研究与报告撰写</strong>：针对香水、植物提取、美甲机器人等细分赛道开展独立研究，完成项目 <strong>One-pager</strong>，为团队投资决策提供关键支持</li>
               </ul>
             </div>
           </div>
         </div>
 
         <!-- ═══ 卷二：战略转身 ═══ -->
-        <div class="tl-chapter reveal">
+        <div class="tl-chapter collapsible reveal">
           <div class="tl-chapter-head">
             <span class="tl-chapter-no">卷二 · Chapter Ⅱ</span>
             <span class="tl-chapter-title">战略转身 · 从看公司到看产品</span>
             <span class="tl-chapter-years">2025.06 — 2026.02</span>
           </div>
           <p class="tl-chapter-note">离开一级市场，视角从「<strong>这家公司值不值得投</strong>」转向「<strong>这个产品该怎么长</strong>」。在字节研究 TikTok 全球直播格局、在百度拆解夸克与海外标杆的 AI 打法——同时第一次动手用 n8n、Prompt 工程把自己的调研流程<strong>自动化</strong>。金融练出的研究方法论没浪费，只是换了个战场。</p>
-        </div>
-
-        <!-- 百度 AI战略 -->
-        <div class="tl-item reveal" data-index="2">
-          <div class="tl-header">
-            <div class="tl-left">
-              <div class="tl-company-badge">BD</div>
-              <div class="tl-info">
-                <div class="tl-title">AI 战略实习生</div>
-                <div class="tl-company">百度</div>
-              </div>
-            </div>
-            <div class="tl-right">
-              <span class="tl-period">2025.10 — 2026.02</span>
-              <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
-            </div>
-          </div>
-          <div class="tl-body">
-            <div class="tl-body-inner">
-              <ul>
-                <li><strong>AI 产品研究</strong><span class="tl-tag strategy">战略</span>：深度调研夸克 AI 产品，围绕其整体 AI 战略打法及商业化路径开展专项分析；长期追踪竞品核心数据表现，为业务侧决策提供参考依据</li>
-                <li><strong>产品增长专项研究</strong><span class="tl-tag strategy">战略</span>：聚焦 Notion、Gamma、Grammarly 等海外标杆产品，围绕增长策略、商业化路径等开展专项研究，拆解核心增长亮点，输出产品增长参考洞察</li>
-                <li><strong>AI 产品中长期规划支持</strong><span class="tl-tag strategy">战略</span>：深度参与网盘出海产品（Terabox）<strong>三年规划</strong>，拆解海外云盘市场分端竞争格局，结合全球 AI 赛道细分场景机会，挖掘本土化与 AI 化核心优势；聚焦云盘 AI 能力升级、场景延伸方向输出规划建议</li>
-                <li><strong>业务 AI 新能力评估（GEO 方向）</strong><span class="tl-tag ai">AI</span>：围绕网盘/文库出海产品，聚焦 GEO、AI 搜索等前沿方向，结合百度搜索与内容分发能力，明确 GEO 在内容曝光、知识获取与用户留存中的应用场景及增长天花板，向业务输出落地建议</li>
-                <li><strong>AI 知识产品形态洞察</strong><span class="tl-tag ai">AI</span>：研究 Gemini × NotebookLM 融合路径，分析当前主流产品在「提问式 AI」与「知识沉淀型 AI」之间的能力断层；向团队提出融合型 AI 工具产品的机会假设，为 Oreate 等产品中长期形态讨论提供输入</li>
-              </ul>
-            </div>
+          <div class="tl-chapter-toggle">
+            <span class="tl-chapter-hint"><span class="open-label">展开本卷案卷</span><span class="close-label">收起本卷案卷</span><span class="cnt">· 2 段</span></span>
+            <span class="tl-chapter-arrow"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M3 4.5l3 3 3-3"/></svg></span>
           </div>
         </div>
 
@@ -670,89 +683,106 @@
           </div>
         </div>
 
-        <!-- ═══ 卷一：金融打底 ═══ -->
-        <div class="tl-chapter reveal">
-          <div class="tl-chapter-head">
-            <span class="tl-chapter-no">卷一 · Chapter Ⅰ</span>
-            <span class="tl-chapter-title">金融打底 · 故事的起点</span>
-            <span class="tl-chapter-years">2024.02 — 2025.05</span>
-          </div>
-          <p class="tl-chapter-note">一切从这里开始。在国盛证券啃低空经济、卫星互联网的硬核研究，在宸睿、中金扫描一级市场消费标的——练的是同一件事：<strong>面对一个完全陌生的领域，如何从零把它研究透、量化出规模、看懂商业模式与护城河</strong>。这套「从零建立认知」的本事，后来成了我做产品判断的底层地基。</p>
-        </div>
-
-        <!-- 中金资本 -->
+        <!-- 百度 AI战略 -->
         <div class="tl-item reveal" data-index="4">
           <div class="tl-header">
             <div class="tl-left">
-              <div class="tl-company-badge">CICC</div>
+              <div class="tl-company-badge">BD</div>
               <div class="tl-info">
-                <div class="tl-title">投资实习生</div>
-                <div class="tl-company">中金资本 · 文化消费基金</div>
+                <div class="tl-title">AI 战略实习生</div>
+                <div class="tl-company">百度</div>
               </div>
             </div>
             <div class="tl-right">
-              <span class="tl-period">2025.02 — 2025.05</span>
+              <span class="tl-period">2025.10 — 2026.02</span>
               <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
             </div>
           </div>
           <div class="tl-body">
             <div class="tl-body-inner">
               <ul>
-                <li><strong>消费赛道投资机会扫描与热力图构建</strong><span class="tl-tag data">数据</span>：主导消费行业热点追踪与分析，系统跟进每周超 <strong>10 个</strong>融资案例，从融资频率、金额、模式创新等维度构建<strong>投资热力图</strong>，识别出保健品、宠物食品等高景气赛道，形成动态项目 Shortlist</li>
-                <li><strong>核心消费项目分析</strong>：深度参与多个核心消费项目投前研究，与创始人进行多轮访谈；系统梳理商业模式、产品矩阵及供应链，提炼各项目核心护城河（技术壁垒、品牌优势等）</li>
-                <li><strong>行业研究与报告撰写</strong>：针对香水、植物提取、美甲机器人等细分赛道开展独立研究，完成项目 <strong>One-pager</strong>，为团队投资决策提供关键支持</li>
+                <li><strong>AI 产品研究</strong><span class="tl-tag strategy">战略</span>：深度调研夸克 AI 产品，围绕其整体 AI 战略打法及商业化路径开展专项分析；长期追踪竞品核心数据表现，为业务侧决策提供参考依据</li>
+                <li><strong>产品增长专项研究</strong><span class="tl-tag strategy">战略</span>：聚焦 Notion、Gamma、Grammarly 等海外标杆产品，围绕增长策略、商业化路径等开展专项研究，拆解核心增长亮点，输出产品增长参考洞察</li>
+                <li><strong>AI 产品中长期规划支持</strong><span class="tl-tag strategy">战略</span>：深度参与网盘出海产品（Terabox）<strong>三年规划</strong>，拆解海外云盘市场分端竞争格局，结合全球 AI 赛道细分场景机会，挖掘本土化与 AI 化核心优势；聚焦云盘 AI 能力升级、场景延伸方向输出规划建议</li>
+                <li><strong>业务 AI 新能力评估（GEO 方向）</strong><span class="tl-tag ai">AI</span>：围绕网盘/文库出海产品，聚焦 GEO、AI 搜索等前沿方向，结合百度搜索与内容分发能力，明确 GEO 在内容曝光、知识获取与用户留存中的应用场景及增长天花板，向业务输出落地建议</li>
+                <li><strong>AI 知识产品形态洞察</strong><span class="tl-tag ai">AI</span>：研究 Gemini × NotebookLM 融合路径，分析当前主流产品在「提问式 AI」与「知识沉淀型 AI」之间的能力断层；向团队提出融合型 AI 工具产品的机会假设，为 Oreate 等产品中长期形态讨论提供输入</li>
               </ul>
             </div>
           </div>
         </div>
 
-        <!-- 宸睿资本 -->
+        <!-- ═══ 卷三：产品落地 ═══ -->
+        <div class="tl-chapter collapsible reveal">
+          <div class="tl-chapter-head">
+            <span class="tl-chapter-no">卷三 · Chapter Ⅲ</span>
+            <span class="tl-chapter-title">产品落地 · 下场做 AI</span>
+            <span class="tl-chapter-years">2025.10 — 至今</span>
+          </div>
+          <p class="tl-chapter-note">案情推进到这里，我不再只是<strong>旁观 AI</strong>，而是亲手<strong>把 AI 变成产品</strong>：从搭数据观测体系、做评测与 Badcase 归因，到用内部 AI 工具从 0 到 1 搭出可运转的智能系统。前两卷积累的行业判断力和战略视野，在这里第一次落地成真正的功能。</p>
+          <div class="tl-chapter-toggle">
+            <span class="tl-chapter-hint"><span class="open-label">展开本卷案卷</span><span class="close-label">收起本卷案卷</span><span class="cnt">· 2 段</span></span>
+            <span class="tl-chapter-arrow"><svg viewBox="0 0 12 12" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M3 4.5l3 3 3-3"/></svg></span>
+          </div>
+        </div>
+
+        <!-- 百度 AI Agent -->
         <div class="tl-item reveal" data-index="5">
           <div class="tl-header">
             <div class="tl-left">
-              <div class="tl-company-badge">CR</div>
+              <div class="tl-company-badge">BD</div>
               <div class="tl-info">
-                <div class="tl-title">FA 消费组实习生</div>
-                <div class="tl-company">宸睿资本</div>
+                <div class="tl-title">AI Agent 产品实习生</div>
+                <div class="tl-company">百度</div>
               </div>
             </div>
             <div class="tl-right">
-              <span class="tl-period">2024.09 — 2025.01</span>
+              <span class="tl-period">2026.02 — 2026.04</span>
               <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
             </div>
           </div>
           <div class="tl-body">
             <div class="tl-body-inner">
               <ul>
-                <li><strong>大健康消费赛道深度行研报告</strong>：独立主导并撰写<strong>万字行业报告</strong>；通过拆解头部上市公司发展历程与经营模式，提炼赛道核心玩家画像与关键成功要素</li>
-                <li><strong>一级市场投资标的扫描与 Mapping</strong>：基于行研报告洞见，系统性扫描并 Mapping 大健康消费领域一级市场潜在标的超 <strong>500 家</strong>，为团队项目筛选和渠道拓展提供精准漏斗支持</li>
-                <li><strong>项目支持与建模分析</strong>：独立负责某零售咖啡项目商业计划书（BP）撰写；搭建市场规模预测模型，完成华东地区鲜品预制菜市场规模量化预测</li>
+                <li><strong>核心数据报表体系搭建</strong><span class="tl-tag data">数据</span>：针对 <strong>Genflow</strong>（内嵌百度网盘 & 文库 App 及 PC 端的通用 Agent 产品）搭建两期核心数据报表体系；基于产品观测需求梳理并选取核心指标，明确指标定义与统计逻辑，推动跨方协作完善数据埋点与填报，解决产品无统一数据观测体系的痛点，为日常运营、问题诊断及策略优化提供数据支撑</li>
+                <li><strong>Badcase 专项分析</strong><span class="tl-tag ai">AI</span>：针对 Agent 工具选择错误问题开展<strong>全链路归因分析</strong>，聚焦意图分流、规划调度、工具描述等核心环节拆解问题成因，输出针对性优化方向与解决方案，推动模型工具选择准确性提升</li>
+                <li><strong>评测体系搭建与落地</strong><span class="tl-tag ai">AI</span>：为 Genflow 4.0 意图分流模块搭建专属评测体系，制定意图 Tag 分类标准，设计多维度评估方案，完成经典 case 收集与人工真值打标，建立<strong>标准化评测流程</strong>，为意图分流模型迭代与效果验证提供依据</li>
               </ul>
             </div>
           </div>
         </div>
 
-        <!-- 国盛证券 -->
+        <!-- 美团 -->
         <div class="tl-item reveal" data-index="6">
           <div class="tl-header">
             <div class="tl-left">
-              <div class="tl-company-badge">GS</div>
+              <div class="tl-company-badge">MT</div>
               <div class="tl-info">
-                <div class="tl-title">研究所军工组实习生</div>
-                <div class="tl-company">国盛证券（新财富第二团队）</div>
+                <div class="tl-title">商分实习生</div>
+                <div class="tl-company">美团</div>
               </div>
             </div>
             <div class="tl-right">
-              <span class="tl-period">2024.02 — 2024.08</span>
+              <span class="tl-period">2026.05 — 2026.08</span>
               <div class="tl-chevron"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M2 3.5l3 3 3-3"/></svg></div>
             </div>
           </div>
           <div class="tl-body">
             <div class="tl-body-inner">
               <ul>
-                <li><strong>「低空经济」产业深度报告</strong>：系统梳理超 <strong>30 篇</strong>中英文文献，完成产业链图谱、竞争格局与发展趋势综述；独立负责「基础设施」核心章节，通过市场规模预测模型量化测算出<strong>近万亿级</strong>潜在市场空间</li>
-                <li><strong>「卫星互联网」前沿技术专题研究</strong>：独立完成「手机直连卫星」核心技术章节；解析超 <strong>20 篇</strong>技术文献，清晰阐述不同技术路径的演进、核心壁垒与商业化前景，研究成果被报告完整采纳</li>
-                <li><strong>行业前沿动态追踪</strong>：利用 WIND 等工具对行业动态、市场数据及公司公告进行高频监控与筛选，定期产出资讯简报，支持研究员进行行业趋势跟踪与分析</li>
+                <li><strong>BML 补贴提效项目</strong><span class="tl-tag ai">AI</span>：面对白热化市场竞争，聚焦补贴策略全面升级——
+                  <ul class="sub-list">
+                    <li>选品侧：引入 AI 大模型能力，结合策略信息输入，实现<strong>基于 LLM 的实时选品</strong>，释放人力并提升策略敏捷性</li>
+                    <li>量价侧：深挖用户消费特征，搭建「核心供给 × 分时段 × 分场景 × 千人多面」<strong>精准补贴模型</strong>，增强摇摆用户低价感知，提升补贴效率</li>
+                  </ul>
+                </li>
+                <li><strong>DSS 信息采集能力建设</strong><span class="tl-tag data">数据</span>：为应对夏站到来及竞对竞争，推动抖音 DSS 渠道的 OCR 采集与机采链路落地，负责外包采集价格校验、覆盖性验证，确保采集链路可跑通</li>
+                <li><strong>智能交互系统搭建</strong><span class="tl-tag ai">AI</span>（利用内部 AI 工具从 0 到 1）：
+                  <ul class="sub-list">
+                    <li>销售侧补贴项目提报 + 管理员<strong>智能审批</strong>：直联销售侧与提报系统，商分同学手机端/PC 端实时审批，提升补贴灵活性与策略时效性，节省人工成本</li>
+                    <li><strong>预算管理</strong>：每日定时从内部看板抓取本月预算与消耗进度，可视化呈现，支持日频监控</li>
+                    <li><strong>效果分析</strong>：每日定时抓取实时 GTV、补贴金额、订单量，分战区监测增量撬动比变化；支持增量撬动比异动归因与预算分配策略输出</li>
+                  </ul>
+                </li>
               </ul>
             </div>
           </div>
@@ -1155,11 +1185,33 @@
         if (!isOpen) item.classList.add('open');
       });
     });
-    // Open first by default
-    setTimeout(() => {
-      const first = document.querySelector('.tl-item');
-      if (first) first.classList.add('open');
-    }, 800);
+
+    // ── Collapsible case chapters (卷宗折叠) ──
+    document.querySelectorAll('.tl-chapter.collapsible').forEach(chapter => {
+      // Gather the .tl-item siblings that belong to this chapter (until next chapter)
+      const children = [];
+      let sib = chapter.nextElementSibling;
+      while (sib && !sib.classList.contains('tl-chapter')) {
+        if (sib.classList.contains('tl-item')) {
+          sib.classList.add('chapter-child');
+          children.push(sib);
+        }
+        sib = sib.nextElementSibling;
+      }
+      chapter._children = children;
+      chapter.addEventListener('click', () => {
+        const willOpen = !chapter.classList.contains('open');
+        chapter.classList.toggle('open', willOpen);
+        children.forEach(child => {
+          child.classList.toggle('chapter-visible', willOpen);
+          if (willOpen) {
+            child.classList.add('visible'); // ensure reveal animation doesn't keep it hidden
+          } else {
+            child.classList.remove('open'); // collapse any expanded experience inside
+          }
+        });
+      });
+    });
 
     // ── Counter animation ──
     function animateCounters() {
