@@ -214,6 +214,16 @@
     .tl-tag.data { background: rgba(16,185,129,0.08); color: #059669; }
     .tl-tag.strategy { background: rgba(245,158,11,0.1); color: #d97706; }
 
+    /* ── Case Chapter (卷宗) ── */
+    .tl-chapter { margin: 2.4rem 0 0.4rem; position: relative; }
+    .tl-chapter:first-of-type { margin-top: 0.6rem; }
+    .tl-chapter-head { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; }
+    .tl-chapter-no { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; color: var(--accent); border: 1px solid var(--accent); padding: 0.15rem 0.55rem; border-radius: var(--radius-xs); text-transform: uppercase; white-space: nowrap; }
+    .tl-chapter-title { font-size: 1.15rem; font-weight: 700; color: var(--text); letter-spacing: 0.01em; }
+    .tl-chapter-years { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-tertiary); letter-spacing: 0.5px; }
+    .tl-chapter-note { margin: 0.7rem 0 1.1rem; font-size: 0.86rem; color: var(--text-secondary); line-height: 1.8; max-width: 720px; padding-left: 1rem; border-left: 2px dashed var(--accent-light); }
+    .tl-chapter-note strong { color: var(--text); font-weight: 600; }
+
     /* ── Education ── */
     .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
     .edu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; cursor: default; }
@@ -513,9 +523,20 @@
     <div class="container">
       <div class="section-header reveal">
         <div class="section-label">Case Files · Experience</div>
-        <div class="section-title">办案记录 · 从金融查到 AI 的七段旅程</div>
+        <div class="section-title">办案记录 · 一条从金融查到 AI 产品的线索</div>
       </div>
+      <p class="phil-intro reveal">这不是七段互不相干的实习，而是同一桩案子的三卷档案。倒着翻——从我此刻正在做的 AI 产品，一路追回最初那个在券商研究所啃财报的起点。每一卷，都是上一卷埋下的伏笔。</p>
       <div class="timeline">
+
+        <!-- ═══ 卷三：产品落地 ═══ -->
+        <div class="tl-chapter reveal">
+          <div class="tl-chapter-head">
+            <span class="tl-chapter-no">卷三 · Chapter Ⅲ</span>
+            <span class="tl-chapter-title">产品落地 · 下场做 AI</span>
+            <span class="tl-chapter-years">2025.10 — 至今</span>
+          </div>
+          <p class="tl-chapter-note">案情推进到这里，我不再只是<strong>旁观 AI</strong>，而是亲手<strong>把 AI 变成产品</strong>：从搭数据观测体系、做评测与 Badcase 归因，到用内部 AI 工具从 0 到 1 搭出可运转的智能系统。前两卷积累的行业判断力和战略视野，在这里第一次落地成真正的功能。</p>
+        </div>
 
         <!-- 美团 -->
         <div class="tl-item reveal" data-index="0">
@@ -580,6 +601,16 @@
           </div>
         </div>
 
+        <!-- ═══ 卷二：战略转身 ═══ -->
+        <div class="tl-chapter reveal">
+          <div class="tl-chapter-head">
+            <span class="tl-chapter-no">卷二 · Chapter Ⅱ</span>
+            <span class="tl-chapter-title">战略转身 · 从看公司到看产品</span>
+            <span class="tl-chapter-years">2025.06 — 2026.02</span>
+          </div>
+          <p class="tl-chapter-note">离开一级市场，视角从「<strong>这家公司值不值得投</strong>」转向「<strong>这个产品该怎么长</strong>」。在字节研究 TikTok 全球直播格局、在百度拆解夸克与海外标杆的 AI 打法——同时第一次动手用 n8n、Prompt 工程把自己的调研流程<strong>自动化</strong>。金融练出的研究方法论没浪费，只是换了个战场。</p>
+        </div>
+
         <!-- 百度 AI战略 -->
         <div class="tl-item reveal" data-index="2">
           <div class="tl-header">
@@ -637,6 +668,16 @@
               </ul>
             </div>
           </div>
+        </div>
+
+        <!-- ═══ 卷一：金融打底 ═══ -->
+        <div class="tl-chapter reveal">
+          <div class="tl-chapter-head">
+            <span class="tl-chapter-no">卷一 · Chapter Ⅰ</span>
+            <span class="tl-chapter-title">金融打底 · 故事的起点</span>
+            <span class="tl-chapter-years">2024.02 — 2025.05</span>
+          </div>
+          <p class="tl-chapter-note">一切从这里开始。在国盛证券啃低空经济、卫星互联网的硬核研究，在宸睿、中金扫描一级市场消费标的——练的是同一件事：<strong>面对一个完全陌生的领域，如何从零把它研究透、量化出规模、看懂商业模式与护城河</strong>。这套「从零建立认知」的本事，后来成了我做产品判断的底层地基。</p>
         </div>
 
         <!-- 中金资本 -->
