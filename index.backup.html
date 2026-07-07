@@ -43,17 +43,6 @@
     /* ── Scroll progress ── */
     .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); z-index: 200; width: 0; transition: width 0.1s linear; }
 
-    /* ── Detective mode ── */
-    .detective-toast { position: fixed; top: 84px; left: 50%; transform: translate(-50%, -20px); background: var(--text); color: var(--bg); font-size: 0.82rem; font-weight: 500; padding: 0.7rem 1.2rem; border-radius: 30px; box-shadow: var(--shadow-xl); z-index: 9999; display: flex; align-items: center; gap: 0.5rem; opacity: 0; pointer-events: none; transition: opacity 0.4s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
-    .detective-toast.show { opacity: 1; transform: translate(-50%, 0); }
-    .det-icon { font-size: 1rem; }
-    .logo-dot { cursor: pointer; }
-    /* Detective mode active: bigger glow + accent shift */
-    body.detective .cursor { background: var(--accent-2); width: 8px; height: 8px; }
-    body.detective .cursor-ring { width: 60px; height: 60px; border: 2px solid rgba(236,72,153,0.5); border-radius: 50%; }
-    body.detective .cursor-ring::after { content: ''; position: absolute; bottom: -14px; right: -6px; width: 18px; height: 3px; background: rgba(236,72,153,0.6); border-radius: 2px; transform: rotate(45deg); }
-    body.detective .cursor-glow { background: radial-gradient(circle, rgba(236,72,153,0.08) 0%, transparent 62%); }
-
     /* ── Nav ── */
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 2.5rem; height: 64px; display: flex; justify-content: space-between; align-items: center; background: rgba(250,250,249,0); backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s; }
     nav.scrolled { background: rgba(250,250,249,0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); box-shadow: 0 1px 0 var(--border); }
@@ -89,7 +78,6 @@
     .hero h1 .char { display: inline-block; opacity: 0; transform: translateY(28px); }
     .hero h1 .char.animate { animation: charReveal 0.45s forwards cubic-bezier(0.22,1,0.36,1); }
     .hero h1 .accent { color: var(--accent); font-style: italic; font-family: 'Playfair Display', serif; }
-    .hero h1 .hero-sub { font-size: 1.35rem; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.02em; }
 
     .hero-desc { font-size: 1rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 2rem; opacity: 0; transform: translateY(16px); animation: fadeUp 0.6s 1.5s forwards; }
 
@@ -113,11 +101,6 @@
     .card-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1.1rem; transform: translateZ(16px); }
     .card-tags span { font-size: 0.73rem; padding: 0.28rem 0.65rem; background: var(--bg-alt); border-radius: 6px; color: var(--text-secondary); font-weight: 500; transition: all 0.25s; border: 1px solid transparent; cursor: default; }
     .card-tags span:hover { background: var(--accent-bg); color: var(--accent); border-color: rgba(124,58,237,0.15); transform: translateY(-2px); }
-    /* Detective file card extras */
-    .detective-file { position: relative; }
-    .file-stamp { position: absolute; top: 1.1rem; right: 1.1rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; color: var(--accent-2); border: 1.5px solid var(--accent-2); border-radius: 4px; padding: 0.15rem 0.4rem; transform: rotate(8deg); opacity: 0.55; pointer-events: none; z-index: 3; }
-    .card-version { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed var(--border); font-size: 0.72rem; color: var(--text-tertiary); letter-spacing: 0.3px; transform: translateZ(6px); }
-    .card-version strong { color: var(--accent); font-weight: 700; }
     /* Floating chips around card */
     .float-chips { position: absolute; right: -24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0.6rem; }
     .float-chip { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.75rem; font-size: 0.72rem; font-weight: 500; color: var(--text-secondary); box-shadow: var(--shadow-md); white-space: nowrap; animation: floatY 4s ease-in-out infinite; }
@@ -144,35 +127,6 @@
     .marquee-item { font-size: 0.8rem; padding: 0.45rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; color: var(--text-secondary); white-space: nowrap; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); cursor: default; }
     .marquee-item:hover { border-color: var(--accent); color: var(--accent); transform: scale(1.05); box-shadow: 0 4px 16px rgba(124,58,237,0.12); }
     .marquee-item .dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-right: 0.45rem; opacity: 0.5; vertical-align: middle; }
-
-    /* ── Product Philosophy ── */
-    .phil-intro { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.85; max-width: 640px; margin-bottom: 2.5rem; }
-    .phil-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-    .phil-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem 1.6rem; position: relative; overflow: hidden; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
-    .phil-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: linear-gradient(180deg, var(--accent), var(--accent-2)); transform: scaleY(0); transform-origin: top; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
-    .phil-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: rgba(124,58,237,0.2); }
-    .phil-card:hover::before { transform: scaleY(1); }
-    .phil-no { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; color: var(--accent); background: var(--accent-bg); display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; margin-bottom: 1rem; }
-    .phil-title { font-size: 1.05rem; font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; margin-bottom: 0.85rem; }
-    .phil-body { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.8; }
-    .phil-tag { margin-top: 1.1rem; font-size: 0.76rem; font-weight: 600; color: var(--accent); }
-
-    /* ── Thinking (podcast + wechat) ── */
-    .think-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-    .think-card { display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; }
-    .think-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: rgba(124,58,237,0.25); }
-    .think-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.1rem; }
-    .think-icon { font-size: 1.8rem; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
-    .think-card:hover .think-icon { transform: scale(1.2) rotate(-8deg); }
-    .think-live { font-size: 0.64rem; font-weight: 700; letter-spacing: 1.5px; color: var(--accent-2); background: var(--accent-bg2); padding: 0.22rem 0.55rem; border-radius: 12px; display: inline-flex; align-items: center; gap: 0.35rem; }
-    .think-live::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent-2); animation: pulse 1.6s infinite; }
-    .think-live-alt { color: var(--accent); background: var(--accent-bg); }
-    .think-live-alt::before { background: var(--accent); }
-    .think-name { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.65rem; }
-    .think-desc { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.25rem; }
-    .think-cta { font-size: 0.82rem; font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; transition: gap 0.25s; }
-    .think-card:hover .think-cta { gap: 0.7rem; }
-    .think-cta-muted { color: var(--text-tertiary); font-weight: 500; }
 
     /* ── Timeline (accordion style) ── */
     .timeline { display: flex; flex-direction: column; gap: 0; }
@@ -250,16 +204,6 @@
     .about-item:hover .about-emoji { transform: scale(1.3) rotate(10deg); }
     .about-item .about-label { font-size: 0.68rem; color: var(--text-tertiary); margin-bottom: 0.2rem; letter-spacing: 0.5px; }
     .about-item .about-value { font-size: 0.76rem; font-weight: 600; color: var(--text-secondary); line-height: 1.4; }
-    /* ── Clue cards ── */
-    .clue-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-    .clue-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem; position: relative; overflow: hidden; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); cursor: default; }
-    .clue-card:hover { transform: translateY(-4px) rotate(-0.5deg); box-shadow: var(--shadow-lg); border-color: rgba(124,58,237,0.22); }
-    .clue-tag { font-size: 0.64rem; font-weight: 700; letter-spacing: 1.5px; color: var(--text-tertiary); border: 1px dashed var(--border); display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; margin-bottom: 1rem; }
-    .clue-card:hover .clue-tag { color: var(--accent); border-color: rgba(124,58,237,0.35); }
-    .clue-emoji { font-size: 2rem; margin-bottom: 0.7rem; display: inline-block; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
-    .clue-card:hover .clue-emoji { transform: scale(1.25) rotate(-8deg); }
-    .clue-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
-    .clue-desc { font-size: 0.83rem; color: var(--text-secondary); line-height: 1.75; }
 
     /* ── Contact ── */
     .contact-section { text-align: center; padding-bottom: 4rem; }
@@ -301,9 +245,6 @@
       nav .nav-links { display: none; }
       .edu-grid, .skills-grid { grid-template-columns: 1fr; }
       .about-grid { grid-template-columns: repeat(3, 1fr); }
-      .phil-grid, .clue-grid { grid-template-columns: 1fr; }
-      .think-grid { grid-template-columns: 1fr; }
-      .detective-toast { font-size: 0.74rem; padding: 0.6rem 1rem; max-width: 90vw; text-align: center; }
       section { padding: 4rem 0; }
       .tl-body-inner { padding-left: 0; }
     }
@@ -316,24 +257,17 @@
   <div class="cursor-glow" id="glow"></div>
   <div class="scroll-progress" id="scrollProg"></div>
 
-  <!-- Detective mode toast -->
-  <div class="detective-toast" id="detToast">
-    <span class="det-icon">🔍</span>
-    <span id="detMsg">侦探模式已开启 · 现在你也是「百里」的搭档了</span>
-  </div>
-
   <!-- ── Nav ── -->
   <nav id="mainNav">
     <a href="#" class="logo">
-      <span class="logo-dot" id="logoDot" title="点我试试？🔍"></span>
+      <span class="logo-dot"></span>
       Elaine Li
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#philosophy">产品观</a></li>
-      <li><a href="#experience">办案记录</a></li>
-      <li><a href="#thinking">我的思考</a></li>
+      <li><a href="#experience">实习经历</a></li>
       <li><a href="#projects">项目竞赛</a></li>
       <li><a href="#education">教育背景</a></li>
+      <li><a href="#skills">技能</a></li>
       <li><a href="#about">关于我</a></li>
       <li><a href="#contact">联系</a></li>
     </ul>
@@ -344,11 +278,11 @@
     <div class="hero-bg"></div>
     <div class="container">
       <div class="hero-text">
-        <div class="hero-badge"><span class="hero-badge-dot"></span>AI Product Manager · 一个正在破案的产品人</div>
+        <div class="hero-badge"><span class="hero-badge-dot"></span>AI Product Manager · 武汉大学金融硕士</div>
         <h1 id="heroTitle"></h1>
-        <p class="hero-desc">我把做产品当成破案：先厘清用户真正的「案情」，再从一堆看似无关的线索里，找到那个关键的关联。高精力、好奇心拉满，从金融投研一路查到 AI Agent——技术是工具，<strong style="color:var(--text);font-weight:600;">好用的产品才是真相</strong>。</p>
+        <p class="hero-desc">关注 AIGC、AI Agent、人机交互方向。从投行研究到 AI 产品，一直在寻找技术与商业的最佳交汇点。</p>
         <div class="hero-btns">
-          <a href="#philosophy" class="btn btn-primary">查看案卷 <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+          <a href="#experience" class="btn btn-primary">查看经历 <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
           <a href="#contact" class="btn btn-ghost">联系我</a>
         </div>
         <div class="hero-stats">
@@ -359,27 +293,25 @@
       </div>
       <div class="hero-visual" style="position:relative;">
         <div class="profile-card-wrap">
-          <div class="profile-card detective-file" id="heroCard">
-            <div class="file-stamp">CASE&nbsp;OPEN</div>
+          <div class="profile-card" id="heroCard">
             <div class="card-top">
-              <span class="card-role-badge">侦探档案 · No.1031</span>
+              <span class="card-role-badge">AI Product Manager</span>
               <div class="card-avatar">EL</div>
             </div>
             <div class="card-name">Elaine Li</div>
-            <div class="card-name-cn">李翊铭 · 代号「百里」</div>
-            <p class="card-bio">武汉大学金融硕士。白天做 AI 产品，业余是罪案播客深度爱好者、剧本杀里的头号侦探。特长：把杂乱无章的线索，理成一条清晰的产品逻辑。</p>
+            <div class="card-name-cn">李翊铭</div>
+            <p class="card-bio">武汉大学金融硕士，用 AI 重新定义产品体验，用数据驱动商业决策。播客「百里挑一」主播，公众号「百里回声」作者。</p>
             <div class="card-tags">
               <span data-tip="百度·美团">AI Product</span>
               <span data-tip="TikTok·百度">Strategy</span>
               <span data-tip="Python·R·Stata">Data Analysis</span>
-              <span data-tip="N8N 自动化">Automation</span>
-              <span data-tip="小宇宙「百里挑一」">Podcaster</span>
+              <span data-tip="N8N自动化">Automation</span>
+              <span data-tip="小宇宙播客">Podcaster</span>
             </div>
-            <div class="card-version">v3.0　金融 → 战略 → <strong>AI PM</strong>，仍在迭代中</div>
           </div>
         </div>
         <div class="float-chips">
-          <div class="float-chip">🕵️ 线索关联</div>
+          <div class="float-chip">🤖 LLM 应用</div>
           <div class="float-chip">📊 商业分析</div>
           <div class="float-chip">🌏 出海战略</div>
         </div>
@@ -390,7 +322,6 @@
   <!-- ── Marquee ── -->
   <div class="marquee-section">
     <div class="marquee-track">
-      <span class="marquee-item"><span class="dot"></span>🕵️ 线索关联</span>
       <span class="marquee-item"><span class="dot"></span>AI Agent</span>
       <span class="marquee-item"><span class="dot"></span>Prompt Engineering</span>
       <span class="marquee-item"><span class="dot"></span>商业分析</span>
@@ -403,7 +334,6 @@
       <span class="marquee-item"><span class="dot"></span>N8N 自动化</span>
       <span class="marquee-item"><span class="dot"></span>一级市场投研</span>
       <span class="marquee-item"><span class="dot"></span>评测体系</span>
-      <span class="marquee-item"><span class="dot"></span>🕵️ 线索关联</span>
       <span class="marquee-item"><span class="dot"></span>AI Agent</span>
       <span class="marquee-item"><span class="dot"></span>Prompt Engineering</span>
       <span class="marquee-item"><span class="dot"></span>商业分析</span>
@@ -419,45 +349,12 @@
     </div>
   </div>
 
-  <!-- ── 产品观 ── -->
-  <section id="philosophy">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-label">Product Philosophy</div>
-        <div class="section-title">我的产品观 · 三条办案守则</div>
-      </div>
-      <p class="phil-intro reveal">面试官常问我：你怎么看 AI 产品？我把它拆成了三条自己一直在用的「守则」——就像侦探办案，方法比灵感更靠得住。</p>
-      <div class="phil-grid">
-        <div class="phil-card reveal">
-          <div class="phil-no">守则 01</div>
-          <div class="phil-title">把复杂留给自己，把简单交给用户</div>
-          <div class="phil-body">好产品的复杂度不会消失，只会被转移。我的工作，就是把它从用户那一侧，搬到自己这一侧——用户只需要看到那个「简单到不用思考」的结果。</div>
-          <div class="phil-tag">🧩 化繁为简</div>
-        </div>
-        <div class="phil-card reveal">
-          <div class="phil-no">守则 02</div>
-          <div class="phil-title">AI 不是目的，解决真问题才是</div>
-          <div class="phil-body">「用了大模型」不是卖点。我先问的永远是：用户真正的「案情」是什么？如果一个 Excel 公式能解决，就没必要请出一整个 Agent。技术是工具，不是勋章。</div>
-          <div class="phil-tag">🎯 问题导向</div>
-        </div>
-        <div class="phil-card reveal">
-          <div class="phil-no">守则 03</div>
-          <div class="phil-title">从看似无关的线索里，找到那个关联</div>
-          <div class="phil-body">用户说的、用户做的、数据显示的，常常互相矛盾。做产品和破案一样：不轻信任何单一证词，把散落的线索串成一条逻辑链，才能锁定「真凶」——也就是那个真正的需求。</div>
-          <div class="phil-tag">🔍 线索关联</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
   <!-- ── 实习经历 ── -->
   <section id="experience">
     <div class="container">
       <div class="section-header reveal">
-        <div class="section-label">Case Files · Experience</div>
-        <div class="section-title">办案记录 · 从金融查到 AI 的七段旅程</div>
+        <div class="section-label">Experience</div>
+        <div class="section-title">从金融到 AI，持续进化的产品之路</div>
       </div>
       <div class="timeline">
 
@@ -661,39 +558,6 @@
           </div>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ── 我的思考 ── -->
-  <section id="thinking">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="section-label">Thinking Out Loud</div>
-        <div class="section-title">我的思考 · 一个爱把想法说出来的人</div>
-      </div>
-      <p class="phil-intro reveal">做产品的人，得先会表达。工作之外，我用一档播客和一个公众号，持续把自己的观察、好奇和一点点碎碎念留下来。</p>
-      <div class="think-grid">
-        <a href="https://namecard.xiaoyuzhoufm.com/ypl9a" target="_blank" class="think-card reveal">
-          <div class="think-top">
-            <div class="think-icon">🎙️</div>
-            <span class="think-live">ON&nbsp;AIR</span>
-          </div>
-          <div class="think-name">播客「百里挑一」</div>
-          <div class="think-desc">和朋友一起，用最放松的方式聊天——越松弛，聊得越好。从 AI 观察到生活切片，什么都聊。这是我练习「把复杂说简单」的地方。</div>
-          <div class="think-cta">收听小宇宙名片 <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        </a>
-        <div class="think-card reveal">
-          <div class="think-top">
-            <div class="think-icon">✏️</div>
-            <span class="think-live think-live-alt">UPDATING</span>
-          </div>
-          <div class="think-name">公众号「百里回声」</div>
-          <div class="think-desc">播客的衍生地。发一些节目相关的内容，也放我自己的小思考——那些还没想透、但值得记下来的产品观察与好奇心。</div>
-          <div class="think-cta think-cta-muted">播客的文字回声</div>
-        </div>
       </div>
     </div>
   </section>
@@ -914,17 +778,16 @@
   <section id="about">
     <div class="container">
       <div class="section-header reveal">
-        <div class="section-label">The Suspect · About</div>
-        <div class="section-title">案发现场 · 关于 Elaine 的已知线索</div>
+        <div class="section-label">About</div>
+        <div class="section-title">不只是产品经理</div>
       </div>
-      <p class="phil-intro reveal">如果要给「Elaine 是个怎样的人」立案，以下是目前收集到的几条关键线索。逐条查阅，欢迎推理。👇</p>
-      <div class="clue-grid">
-        <div class="clue-card reveal"><div class="clue-tag">线索 01</div><div class="clue-emoji">☕</div><div class="clue-title">一天一杯咖啡</div><div class="clue-desc">雷打不动。既是灵感的燃料，也……保持系统的「排出通畅」，思路和消化一样顺。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 02</div><div class="clue-emoji">🕵️</div><div class="clue-title">罪案播客深度患者</div><div class="clue-desc">重度推理剧本杀玩家，梦想是当侦探——把一堆看似无关的线索，理出那条唯一说得通的逻辑链。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 03</div><div class="clue-emoji">🎬</div><div class="clue-title">文艺片心流成瘾者</div><div class="clue-desc">最享受沉进一部文艺片、进入心流的那两小时。慢下来，是为了看得更清楚。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 04</div><div class="clue-emoji">🎪</div><div class="clue-title">走到哪都能组局</div><div class="clue-desc">不管在哪，都能迅速集结起一支自己的小队，然后把大家哄得特别开心。天生的团队黏合剂。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 05</div><div class="clue-emoji">💃</div><div class="clue-title">民族舞十级</div><div class="clue-desc">从小练到十级。台上的表现力，其实也是一种「产品交付」——把准备好的东西，稳稳呈现出来。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 06</div><div class="clue-emoji">📚</div><div class="clue-title">年均 100+ 本阅读</div><div class="clue-desc">高精力、好奇心拉满，对什么都想弄明白。读书是我给好奇心「喂食」的主要方式。</div></div>
+      <div class="about-grid">
+        <div class="about-item reveal"><div class="about-emoji">🎙️</div><div class="about-label">播客</div><div class="about-value">百里挑一</div></div>
+        <div class="about-item reveal"><div class="about-emoji">💃</div><div class="about-label">舞蹈</div><div class="about-value">民族舞十级</div></div>
+        <div class="about-item reveal"><div class="about-emoji">📚</div><div class="about-label">阅读</div><div class="about-value">年均 100+</div></div>
+        <div class="about-item reveal"><div class="about-emoji">📖</div><div class="about-label">小红书</div><div class="about-value">博主探索中</div></div>
+        <div class="about-item reveal"><div class="about-emoji">✏️</div><div class="about-label">公众号</div><div class="about-value">百里回声</div></div>
+        <div class="about-item reveal"><div class="about-emoji">🗣️</div><div class="about-label">普通话</div><div class="about-value">一级乙等</div></div>
       </div>
     </div>
   </section>
@@ -941,13 +804,12 @@
         <a href="https://namecard.xiaoyuzhoufm.com/ypl9a" class="btn btn-ghost" target="_blank">🎙️ 播客名片</a>
         <a href="https://github.com/liyiming1031-eng" class="btn btn-ghost" target="_blank">GitHub</a>
       </div>
-      <div class="contact-meta reveal"><p>「每个好产品背后，都有一个被厘清的<strong>真问题</strong>。<br>如果你也想一起破案，欢迎来撩。」</p></div>
+      <div class="contact-meta reveal"><p>「让 AI 不只是技术，而是<strong>好用的产品</strong>。」</p></div>
     </div>
   </section>
 
   <footer>
     <p>&copy; 2026 <span>Elaine Li · 李翊铭</span> &nbsp;·&nbsp; Built with ☕ and curiosity</p>
-    <p style="margin-top:0.5rem;opacity:0.75;">💡 小提示：点击左上角的小圆点，或输入经典秘籍 ↑↑↓↓←→←→BA，可开启「侦探模式」</p>
   </footer>
 
   <script>
@@ -999,14 +861,10 @@
     // ── Hero title typewriter ──
     const titleEl = document.getElementById('heroTitle');
     const t1 = '你好，我是'; const t2 = 'Elaine';
-    const t3 = '你的产品侦探';
     let html = '', idx = 0;
     for (const ch of t1) { html += `<span class="char" style="animation-delay:${0.5 + idx * 0.05}s">${ch}</span>`; idx++; }
     html += '<br><span class="accent">';
     for (const ch of t2) { html += `<span class="char" style="animation-delay:${0.5 + idx * 0.05}s">${ch}</span>`; idx++; }
-    html += '</span>';
-    html += '<br><span class="hero-sub">';
-    for (const ch of t3) { html += `<span class="char" style="animation-delay:${0.5 + idx * 0.05}s">${ch}</span>`; idx++; }
     html += '</span>';
     titleEl.innerHTML = html;
 
@@ -1093,42 +951,6 @@
       });
     }, { threshold: 0.05 });
     document.querySelectorAll('.tl-item[data-index]').forEach(el => tlObs.observe(el));
-
-    // ── Detective mode easter egg ──
-    const detToast = document.getElementById('detToast');
-    const detMsg = document.getElementById('detMsg');
-    let toastTimer = null;
-    function showToast(msg) {
-      detMsg.textContent = msg;
-      detToast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => detToast.classList.remove('show'), 3200);
-    }
-    function toggleDetective() {
-      const on = document.body.classList.toggle('detective');
-      showToast(on ? '🕵️ 侦探模式已开启 · 现在你也是「百里」的搭档了' : '案子先合上了 · 随时点小圆点重新开工');
-    }
-    const logoDot = document.getElementById('logoDot');
-    if (logoDot) {
-      logoDot.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleDetective(); });
-    }
-
-    // ── Konami code: ↑↑↓↓←→←→BA ──
-    const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-    let konamiIdx = 0;
-    document.addEventListener('keydown', e => {
-      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-      if (key === konami[konamiIdx]) {
-        konamiIdx++;
-        if (konamiIdx === konami.length) {
-          konamiIdx = 0;
-          document.body.classList.add('detective');
-          showToast('🎉 破案了！你解锁了隐藏秘籍 · 欢迎来撩，一起搞点好玩的产品');
-        }
-      } else {
-        konamiIdx = (key === konami[0]) ? 1 : 0;
-      }
-    });
   </script>
 </body>
 </html>
