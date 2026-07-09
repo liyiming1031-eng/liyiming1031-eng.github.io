@@ -242,6 +242,30 @@
     .tl-item.chapter-child.chapter-visible { display: block; animation: chapterFade 0.5s cubic-bezier(0.4,0,0.2,1) both; }
     @keyframes chapterFade { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* ── Vibe Coding Playground ── */
+    .pg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+    .pg-loading { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 3rem 1rem; color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.5px; }
+    .pg-spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: pgSpin 0.8s linear infinite; }
+    @keyframes pgSpin { to { transform: rotate(360deg); } }
+    .pg-empty { grid-column: 1 / -1; padding: 2.5rem 1rem; text-align: center; color: var(--text-tertiary); font-size: 0.9rem; }
+    .pg-empty a { color: var(--accent); border-bottom: 1px dashed var(--accent); }
+    .pg-card { position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem 1.5rem 1.35rem; box-shadow: var(--shadow-md); transition: all 0.35s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; overflow: hidden; }
+    .pg-card::before { content: 'EVIDENCE'; position: absolute; top: 0.85rem; right: -2.2rem; transform: rotate(35deg); font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 2px; color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 0.12rem 2.4rem; opacity: 0.5; }
+    .pg-card:hover { transform: translateY(-4px) rotate(-0.4deg); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+    .pg-card-no { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 1px; color: var(--text-tertiary); margin-bottom: 0.5rem; }
+    .pg-card-title { font-size: 1.12rem; font-weight: 700; color: var(--text); line-height: 1.3; word-break: break-word; }
+    .pg-card-desc { margin-top: 0.6rem; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; flex: 1; }
+    .pg-card-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.7rem 1rem; margin-top: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-tertiary); }
+    .pg-lang { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .pg-lang .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+    .pg-card-actions { display: flex; gap: 0.6rem; margin-top: 1.15rem; }
+    .pg-btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.55rem 0.8rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.5px; transition: all 0.25s cubic-bezier(0.4,0,0.2,1); border: 1px solid var(--border); white-space: nowrap; }
+    .pg-btn.play { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .pg-btn.play:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); filter: brightness(1.05); }
+    .pg-btn.code { background: transparent; color: var(--text-secondary); }
+    .pg-btn.code:hover { border-color: var(--text); color: var(--text); }
+    .pg-btn svg { width: 13px; height: 13px; }
+
     /* ── Education ── */
     .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
     .edu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; cursor: default; }
@@ -417,6 +441,7 @@
       <li><a href="#experience">办案记录</a></li>
       <li><a href="#thinking">我的思考</a></li>
       <li><a href="#projects">项目竞赛</a></li>
+      <li><a href="#playground">作品试玩</a></li>
       <li><a href="#education">教育背景</a></li>
       <li><a href="#about">关于我</a></li>
       <li><a href="#contact">联系</a></li>
@@ -1048,6 +1073,25 @@
 
   <div class="divider"></div>
 
+  <!-- ── Vibe Coding 作品试玩 ── -->
+  <section id="playground">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Vibe Coding · Playground</div>
+        <div class="section-title">现场证物 · 我 vibe coding 出来的小东西</div>
+      </div>
+      <p class="phil-intro reveal">不只是纸上谈兵——这些是我用 AI 结对编程从 0 到 1 做出来、能直接上手玩的作品。数据实时同步自我的 <a href="https://github.com/liyiming1031-eng" target="_blank" rel="noopener" style="color:var(--accent);border-bottom:1px dashed var(--accent);">GitHub</a>，随做随更。点开「进入现场」即可试玩。👇</p>
+      <div class="pg-grid" id="pgGrid" aria-live="polite">
+        <div class="pg-loading" id="pgLoading">
+          <span class="pg-spinner"></span>
+          <span>正在从 GitHub 调取证物档案…</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
   <!-- ── 关于我 ── -->
   <section id="about">
     <div class="container">
@@ -1212,6 +1256,116 @@
         });
       });
     });
+
+    // ── Vibe Coding Playground: auto-fetch GitHub repos ──
+    (function initPlayground() {
+      const GH_USER = 'liyiming1031-eng';
+      const grid = document.getElementById('pgGrid');
+      if (!grid) return;
+
+      const svgPlay = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 3.2v9.6c0 .5.5.8 1 .5l7.4-4.8c.4-.3.4-.9 0-1.1L5.5 2.6c-.5-.3-1 0-1 .6z"/></svg>';
+      const svgCode = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 4L2 8l3.5 4M10.5 4L14 8l-3.5 4"/></svg>';
+
+      function showEmpty(msg) {
+        grid.innerHTML = '';
+        const box = document.createElement('div');
+        box.className = 'pg-empty';
+        box.textContent = msg + ' ';
+        const a = document.createElement('a');
+        a.href = 'https://github.com/' + GH_USER;
+        a.target = '_blank'; a.rel = 'noopener';
+        a.textContent = '前往 GitHub 主页 →';
+        box.appendChild(a);
+        grid.appendChild(box);
+      }
+
+      function isPlayable(repo) {
+        return repo.has_pages || (repo.homepage && repo.homepage.trim());
+      }
+      function playUrl(repo) {
+        if (repo.homepage && repo.homepage.trim()) return repo.homepage.trim();
+        return 'https://' + GH_USER + '.github.io/' + repo.name + '/';
+      }
+
+      function render(repos) {
+        // Filter out profile repo, the site itself, forks and archived
+        const excluded = [GH_USER.toLowerCase(), (GH_USER + '.github.io').toLowerCase()];
+        let list = repos.filter(r =>
+          !r.fork && !r.archived &&
+          !excluded.includes(r.name.toLowerCase()) &&
+          !/\.github\.io$/i.test(r.name)
+        );
+        // Playable first, then by most recently pushed
+        list.sort((a, b) => {
+          const pa = isPlayable(a) ? 1 : 0, pb = isPlayable(b) ? 1 : 0;
+          if (pa !== pb) return pb - pa;
+          return new Date(b.pushed_at) - new Date(a.pushed_at);
+        });
+        if (!list.length) { showEmpty('暂时还没有可展示的作品，敬请期待～'); return; }
+
+        grid.innerHTML = '';
+        list.forEach((repo, i) => {
+          const card = document.createElement('article');
+          card.className = 'pg-card reveal visible';
+
+          const no = document.createElement('div');
+          no.className = 'pg-card-no';
+          no.textContent = 'CASE #' + String(i + 1).padStart(3, '0');
+
+          const title = document.createElement('h3');
+          title.className = 'pg-card-title';
+          title.textContent = repo.name.replace(/[-_]/g, ' ');
+
+          const desc = document.createElement('p');
+          desc.className = 'pg-card-desc';
+          desc.textContent = repo.description || '一个还没来得及写简介的小实验。点开看看它是什么。';
+
+          const meta = document.createElement('div');
+          meta.className = 'pg-card-meta';
+          if (repo.language) {
+            const lang = document.createElement('span');
+            lang.className = 'pg-lang';
+            const dot = document.createElement('span'); dot.className = 'dot';
+            lang.appendChild(dot);
+            lang.appendChild(document.createTextNode(repo.language));
+            meta.appendChild(lang);
+          }
+          if (repo.stargazers_count > 0) {
+            const star = document.createElement('span');
+            star.textContent = '★ ' + repo.stargazers_count;
+            meta.appendChild(star);
+          }
+          const upd = document.createElement('span');
+          upd.textContent = '更新于 ' + new Date(repo.pushed_at).toLocaleDateString('zh-CN');
+          meta.appendChild(upd);
+
+          const actions = document.createElement('div');
+          actions.className = 'pg-card-actions';
+          if (isPlayable(repo)) {
+            const play = document.createElement('a');
+            play.className = 'pg-btn play';
+            play.href = playUrl(repo);
+            play.target = '_blank'; play.rel = 'noopener';
+            play.innerHTML = svgPlay + '<span>进入现场</span>';
+            actions.appendChild(play);
+          }
+          const code = document.createElement('a');
+          code.className = 'pg-btn code';
+          code.href = repo.html_url;
+          code.target = '_blank'; code.rel = 'noopener';
+          code.innerHTML = svgCode + '<span>查看源码</span>';
+          actions.appendChild(code);
+
+          card.append(no, title, desc, meta, actions);
+          grid.appendChild(card);
+        });
+      }
+
+      fetch('https://api.github.com/users/' + GH_USER + '/repos?per_page=100&sort=pushed')
+        .then(r => { if (!r.ok) throw new Error('GitHub API ' + r.status); return r.json(); })
+        .then(repos => { if (!Array.isArray(repos)) throw new Error('bad payload'); render(repos); })
+        .catch(() => showEmpty('GitHub 数据暂时取不到（可能触发了访问频率限制），'));
+    })();
 
     // ── Counter animation ──
     function animateCounters() {
