@@ -266,6 +266,43 @@
     .pg-btn.code:hover { border-color: var(--text); color: var(--text); }
     .pg-btn svg { width: 13px; height: 13px; }
 
+    /* ── Clue cards: clickable ── */
+    .clue-card { cursor: pointer; }
+    .clue-open { margin-top: 0.9rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.5px; color: var(--accent); opacity: 0; transform: translateX(-4px); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+    .clue-card:hover .clue-open { opacity: 1; transform: translateX(0); }
+
+    /* ── Clue evidence modal ── */
+    .clue-modal { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+    .clue-modal.open { display: flex; }
+    .clue-modal-backdrop { position: absolute; inset: 0; background: rgba(43,39,33,0.55); backdrop-filter: blur(3px); animation: modalFade 0.25s ease both; }
+    .clue-modal-box { position: relative; width: min(560px, 100%); max-height: 85vh; overflow-y: auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-xl); padding: 2rem 1.9rem 1.9rem; animation: modalPop 0.35s cubic-bezier(0.34,1.56,0.64,1) both; background-image: radial-gradient(circle at 12% 18%, rgba(168,52,42,0.04), transparent 60%); }
+    .clue-modal-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: repeating-linear-gradient(90deg, var(--accent) 0 14px, transparent 14px 24px); opacity: 0.6; border-radius: var(--radius) var(--radius) 0 0; }
+    @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes modalPop { from { opacity: 0; transform: translateY(18px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .clue-modal-close { position: absolute; top: 1rem; right: 1rem; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-alt); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+    .clue-modal-close:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(90deg); }
+    .clue-modal-close svg { width: 13px; height: 13px; }
+    .clue-modal-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 1.5px; color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 0.15rem 0.6rem; text-transform: uppercase; }
+    .clue-modal-head { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.9rem; }
+    .clue-modal-emoji { font-size: 1.8rem; line-height: 1; }
+    .clue-modal-title { font-size: 1.3rem; font-weight: 700; color: var(--text); }
+    .clue-modal-body { margin-top: 1.3rem; }
+    .clue-modal-body .cm-intro { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 1.1rem; }
+    .clue-modal-body .cm-group { margin-bottom: 1.3rem; }
+    .clue-modal-body .cm-group:last-child { margin-bottom: 0; }
+    .clue-modal-body .cm-group-title { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 1px; color: var(--accent-2); text-transform: uppercase; margin-bottom: 0.7rem; padding-bottom: 0.35rem; border-bottom: 1px dashed var(--border); }
+    .cm-list { display: flex; flex-direction: column; gap: 0.55rem; }
+    .cm-item { display: flex; gap: 0.65rem; align-items: baseline; padding: 0.6rem 0.75rem; background: var(--bg-alt); border: 1px solid var(--border-light); border-left: 3px solid var(--accent); border-radius: var(--radius-xs); transition: all 0.2s; }
+    .cm-item:hover { transform: translateX(3px); border-left-color: var(--accent-2); }
+    .cm-item .cm-name { font-weight: 600; color: var(--text); font-size: 0.9rem; white-space: nowrap; }
+    .cm-item .cm-note { font-size: 0.8rem; color: var(--text-tertiary); line-height: 1.55; }
+    .cm-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .cm-tag { font-family: var(--font-mono); font-size: 0.76rem; padding: 0.35rem 0.75rem; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 20px; color: var(--text-secondary); transition: all 0.2s; }
+    .cm-tag:hover { border-color: var(--accent); color: var(--accent); }
+    .cm-tag.want { border-style: dashed; color: var(--text-tertiary); }
+    .cm-link { color: var(--accent); border-bottom: 1px dashed var(--accent); }
+    .cm-foot { margin-top: 1.3rem; font-size: 0.78rem; color: var(--text-tertiary); font-style: italic; line-height: 1.6; }
+
     /* ── Education ── */
     .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
     .edu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; cursor: default; }
@@ -1099,14 +1136,30 @@
         <div class="section-label">The Suspect · About</div>
         <div class="section-title">案发现场 · 关于 Elaine 的已知线索</div>
       </div>
-      <p class="phil-intro reveal">如果要给「Elaine 是个怎样的人」立案，以下是目前收集到的几条关键线索。逐条查阅，欢迎推理。👇</p>
+      <p class="phil-intro reveal">如果要给「Elaine 是个怎样的人」立案，以下是目前收集到的几条关键线索。点开任意一条，查阅证物明细。👇</p>
       <div class="clue-grid">
-        <div class="clue-card reveal"><div class="clue-tag">线索 01</div><div class="clue-emoji">🎭</div><div class="clue-title">重度推理剧本杀玩家</div><div class="clue-desc">越硬核越上头。享受在层层伪装和反转里，把一堆看似无关的线索理出那条唯一说得通的逻辑链——和做产品一个套路。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 02</div><div class="clue-emoji">🕵️</div><div class="clue-title">罪案播客深度患者</div><div class="clue-desc">通勤、做饭、睡前都在听。比起结局，更着迷于侦探一步步逼近真相的那个过程——梦想是当个侦探。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 03</div><div class="clue-emoji">🎬</div><div class="clue-title">文艺片心流成瘾者</div><div class="clue-desc">最享受沉进一部文艺片、进入心流的那两小时。慢下来，是为了看得更清楚。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 04</div><div class="clue-emoji">🎪</div><div class="clue-title">走到哪都能组局</div><div class="clue-desc">不管在哪，都能迅速集结起一支自己的小队，然后把大家哄得特别开心。天生的团队黏合剂。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 05</div><div class="clue-emoji">💃</div><div class="clue-title">民族舞十级</div><div class="clue-desc">从小练到十级。台上的表现力，其实也是一种「产品交付」——把准备好的东西，稳稳呈现出来。</div></div>
-        <div class="clue-card reveal"><div class="clue-tag">线索 06</div><div class="clue-emoji">📚</div><div class="clue-title">年均 100+ 本阅读</div><div class="clue-desc">高精力、好奇心拉满，对什么都想弄明白。读书是我给好奇心「喂食」的主要方式。</div></div>
+        <div class="clue-card reveal" data-clue="1"><div class="clue-tag">线索 01</div><div class="clue-emoji">🎭</div><div class="clue-title">重度推理剧本杀玩家</div><div class="clue-desc">越硬核越上头。享受在层层伪装和反转里，把一堆看似无关的线索理出那条唯一说得通的逻辑链——和做产品一个套路。</div><div class="clue-open">查阅证物 →</div></div>
+        <div class="clue-card reveal" data-clue="2"><div class="clue-tag">线索 02</div><div class="clue-emoji">🕵️</div><div class="clue-title">播客深度爱好者</div><div class="clue-desc">通勤、做饭、睡前都在听，尤爱罪案播客。比起结局，更着迷于侦探一步步逼近真相的那个过程。</div><div class="clue-open">查阅证物 →</div></div>
+        <div class="clue-card reveal" data-clue="3"><div class="clue-tag">线索 03</div><div class="clue-emoji">🎬</div><div class="clue-title">文艺片心流成瘾者</div><div class="clue-desc">最享受沉进一部文艺片、进入心流的那两小时。慢下来，是为了看得更清楚。</div><div class="clue-open">查阅证物 →</div></div>
+        <div class="clue-card reveal" data-clue="4"><div class="clue-tag">线索 04</div><div class="clue-emoji">🎪</div><div class="clue-title">走到哪都能组局</div><div class="clue-desc">不管在哪，都能迅速集结起一支自己的小队，然后把大家哄得特别开心。天生的团队黏合剂。</div><div class="clue-open">查阅证物 →</div></div>
+        <div class="clue-card reveal" data-clue="5"><div class="clue-tag">线索 05</div><div class="clue-emoji">💃</div><div class="clue-title">民族舞十级</div><div class="clue-desc">从小练到十级。台上的表现力，其实也是一种「产品交付」——把准备好的东西，稳稳呈现出来。</div><div class="clue-open">查阅证物 →</div></div>
+        <div class="clue-card reveal" data-clue="6"><div class="clue-tag">线索 06</div><div class="clue-emoji">📚</div><div class="clue-title">年均 100+ 本阅读</div><div class="clue-desc">高精力、好奇心拉满，对什么都想弄明白。读书是我给好奇心「喂食」的主要方式。</div><div class="clue-open">查阅证物 →</div></div>
+      </div>
+    </div>
+
+    <!-- 线索证物弹窗 -->
+    <div class="clue-modal" id="clueModal" aria-hidden="true">
+      <div class="clue-modal-backdrop" data-close="1"></div>
+      <div class="clue-modal-box" role="dialog" aria-modal="true" aria-labelledby="clueModalTitle">
+        <button class="clue-modal-close" id="clueModalClose" aria-label="关闭">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 3l8 8M11 3l-8 8"/></svg>
+        </button>
+        <div class="clue-modal-tag" id="clueModalTag">证物 · EXHIBIT</div>
+        <div class="clue-modal-head">
+          <span class="clue-modal-emoji" id="clueModalEmoji">🎭</span>
+          <h3 class="clue-modal-title" id="clueModalTitle">线索标题</h3>
+        </div>
+        <div class="clue-modal-body" id="clueModalBody"></div>
       </div>
     </div>
   </section>
@@ -1365,6 +1418,155 @@
         .then(r => { if (!r.ok) throw new Error('GitHub API ' + r.status); return r.json(); })
         .then(repos => { if (!Array.isArray(repos)) throw new Error('bad payload'); render(repos); })
         .catch(() => showEmpty('GitHub 数据暂时取不到（可能触发了访问频率限制），'));
+    })();
+
+    // ── Clue evidence modal (线索证物弹窗) ──
+    (function initClueModal() {
+      const modal = document.getElementById('clueModal');
+      if (!modal) return;
+      const box = modal.querySelector('.clue-modal-box');
+      const tagEl = document.getElementById('clueModalTag');
+      const emojiEl = document.getElementById('clueModalEmoji');
+      const titleEl = document.getElementById('clueModalTitle');
+      const bodyEl = document.getElementById('clueModalBody');
+
+      // Data model. type: 'list' (name + optional note) or 'tags'
+      const CLUES = {
+        1: { emoji: '🎭', title: '推荐剧本杀', tag: '证物 01 · SCRIPT MURDER',
+          intro: '越硬核越上头。这几本，从推理到演绎各有滋味，闭眼冲：',
+          groups: [{ list: [
+            { name: '窗边的女人', note: '微微恐怖，推理小硬核，全员恶人，参与感巨强' },
+            { name: '案件重演', note: '脑子转啊转啊转，纯烧脑推理' },
+            { name: '雪乡', note: '全靠 DM 表演封神，哈哈哈' },
+            { name: '逃出迷雾镇', note: '平面国设计，纯推理体验，完全沉浸' }
+          ]}],
+          foot: '想开本？带上我，我负责把逻辑链理清楚。' },
+        2: { emoji: '🕵️', title: '播客歌单', tag: '证物 02 · PODCAST',
+          intro: '通勤、做饭、睡前都在听。尤爱罪案类，也杂食其他好节目：',
+          groups: [
+            { title: '罪案推理', tags: ['霓达播客','像素播客','重重电波','落日之后','回音谷'], want: false },
+            { title: '杂食好节目', tags: ['岩中花述','自我进化论','乱翻书','独树不成林','纵横四海','声动活泼','面基','知行小酒馆','肥话连篇'], want: false }
+          ],
+          foot: '对了，我自己也主理一档播客《百里挑一》——和朋友放松地聊天，越松弛聊得越好。',
+          link: { label: '收听《百里挑一》 →', url: 'https://namecard.xiaoyuzhoufm.com/ypl9a' } },
+        3: { emoji: '🎬', title: '私藏片单', tag: '证物 03 · FILM',
+          intro: '最享受沉进一部电影、进入心流的那两小时。文艺片与悬疑经典都爱：',
+          groups: [
+            { title: '文艺 · 心流', tags: ['路边野餐','南方车站的聚会','乘船而去','驾驶我的车'], want: false },
+            { title: '悬疑 · 经典', tags: ['控方证人','杀人回忆'], want: false }
+          ],
+          foot: '慢下来，是为了看得更清楚。' },
+        4: { emoji: '🎪', title: '组局指南', tag: '证物 04 · GATHERING',
+          intro: '不管在哪都能迅速集结一支小队。目前的活动坐标与常组的局：',
+          groups: [
+            { title: 'Base 坐标', tags: ['北京','上海','广深（可能解锁）'], want: false },
+            { title: '常组的局', tags: ['喝酒','探店','Citywalk','剧本杀','各种桌游','狼人杀十级'], want: false }
+          ],
+          foot: '在以上任意城市？随时喊我组局。' },
+        5: { emoji: '💃', title: '舞蹈档案', tag: '证物 05 · DANCE',
+          intro: '从小练到民族舞十级。台上的表现力，也是一种「产品交付」：',
+          groups: [
+            { title: '已掌握 · 民族舞', tags: ['傣族舞','畲族舞','藏族舞','…等'], want: false },
+            { title: '想解锁', tags: ['更自由的舞种'], want: true }
+          ],
+          foot: '想尝试更松弛、更自由的表达。' },
+        6: { emoji: '📚', title: '近期书单', tag: '证物 06 · READING',
+          intro: '年均 100+ 本，给好奇心「喂食」。最近在读 / 想推荐的：',
+          groups: [{ tags: ['素食者','面纱','东方快车谋杀案','灿烂千阳','人生海海','制造消费者','海边的卡夫卡','荒原狼'], want: false }],
+          foot: '好奇心拉满，对什么都想弄明白。' }
+      };
+
+      function buildBody(data) {
+        bodyEl.innerHTML = '';
+        if (data.intro) {
+          const p = document.createElement('p');
+          p.className = 'cm-intro';
+          p.textContent = data.intro;
+          bodyEl.appendChild(p);
+        }
+        (data.groups || []).forEach(g => {
+          const group = document.createElement('div');
+          group.className = 'cm-group';
+          if (g.title) {
+            const t = document.createElement('div');
+            t.className = 'cm-group-title';
+            t.textContent = g.title;
+            group.appendChild(t);
+          }
+          if (g.list) {
+            const wrap = document.createElement('div');
+            wrap.className = 'cm-list';
+            g.list.forEach(it => {
+              const row = document.createElement('div');
+              row.className = 'cm-item';
+              const n = document.createElement('span');
+              n.className = 'cm-name';
+              n.textContent = it.name;
+              row.appendChild(n);
+              if (it.note) {
+                const nt = document.createElement('span');
+                nt.className = 'cm-note';
+                nt.textContent = it.note;
+                row.appendChild(nt);
+              }
+              wrap.appendChild(row);
+            });
+            group.appendChild(wrap);
+          }
+          if (g.tags) {
+            const tags = document.createElement('div');
+            tags.className = 'cm-tags';
+            g.tags.forEach(tx => {
+              const s = document.createElement('span');
+              s.className = 'cm-tag' + (g.want ? ' want' : '');
+              s.textContent = tx;
+              tags.appendChild(s);
+            });
+            group.appendChild(tags);
+          }
+          bodyEl.appendChild(group);
+        });
+        if (data.foot) {
+          const f = document.createElement('p');
+          f.className = 'cm-foot';
+          f.textContent = data.foot;
+          if (data.link) {
+            f.appendChild(document.createElement('br'));
+            const a = document.createElement('a');
+            a.className = 'cm-link';
+            a.href = data.link.url;
+            a.target = '_blank'; a.rel = 'noopener';
+            a.textContent = data.link.label;
+            f.appendChild(a);
+          }
+          bodyEl.appendChild(f);
+        }
+      }
+
+      function openClue(id) {
+        const data = CLUES[id];
+        if (!data) return;
+        tagEl.textContent = data.tag;
+        emojiEl.textContent = data.emoji;
+        titleEl.textContent = data.title;
+        buildBody(data);
+        box.scrollTop = 0;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeClue() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.clue-card[data-clue]').forEach(card => {
+        card.addEventListener('click', () => openClue(card.getAttribute('data-clue')));
+      });
+      document.getElementById('clueModalClose').addEventListener('click', closeClue);
+      modal.querySelector('.clue-modal-backdrop').addEventListener('click', closeClue);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeClue(); });
     })();
 
     // ── Counter animation ──
